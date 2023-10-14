@@ -72,7 +72,7 @@ int main(void) {
                     break;
                 }
                 if (scores[i] >= 100) {
-                    printf("%s Won!\n", player_name[i]);
+                    printf("%s won!\n", player_name[i]);
                     i = 11;
                     win = 1;
                     turn = 1;
