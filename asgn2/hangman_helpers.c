@@ -41,7 +41,7 @@ char read_letter(void) {
     return input;
 }
 
-void print_game_state(const char* phrase, const char* eliminated, int mistakes) {
+void print_game_state(const char* phrase, const char* eliminated, int mistakes, const char* correct_guesses) {
     printf("%s\n", CLEAR_SCREEN);
 
     // Print gallows
@@ -54,7 +54,7 @@ void print_game_state(const char* phrase, const char* eliminated, int mistakes) 
     // Print phrase
     printf("Phrase: ");
     while (*phrase != '\0') {
-        if (string_contains_character(punctuation, *phrase) || string_contains_character(eliminated, *phrase)) {
+        if (string_contains_character(punctuation, *phrase) || string_contains_character(correct_guesses, *phrase)) {
             printf("%c", *phrase);
         } else if (*phrase == ' ') {
             printf(" "); // Display spaces in the phrase

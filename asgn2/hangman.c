@@ -10,34 +10,37 @@ int main(int argc, char* argv[]) {
 
     const char* secret = argv[1];
     char eliminated[MAX_LENGTH] = "";
+    char correct_guesses[MAX_LENGTH] = "";  // Store correct guesses
     int mistakes = 0;
     bool clear = true;
+
     // Validate secret
     if (!validate_secret(secret)) {
         fprintf(stderr, "the secret phrase must contain only lowercase letters, spaces, hyphens, and apostrophes\n");
         return 1;
     }
-    
+
     size_t remaining_letters = 0;
     for (size_t z = strlen(secret); z > 0; z--) {
-        if ('a' <= secret[z - 1] && secret[z - 1] <= 'z') {            
-        remaining_letters++;
+        if (('a' <= secret[z - 1] && secret[z - 1] <= 'z') || secret[z - 1] == ' ' || secret[z - 1] == '-' || secret[z - 1] == '\'') {
+            remaining_letters++;
+        }
     }
-    }
+
     char guessed[MAX_LENGTH] = "";  // Store guessed letters
     size_t eliminated_length = 0;
 
     while (mistakes < LOSING_MISTAKE) {
         // Print game state
-        if (clear){
-        print_game_state(secret, eliminated, mistakes);
+        if (clear) {
+            print_game_state(secret, eliminated, mistakes, correct_guesses);
         }
         // Prompt for a letter
         printf("Guess a letter: ");
         char guess = read_letter();
 
-        // Check if the letter has already been guessed
-        if (string_contains_character(guessed, guess) || !(guess >= 'a' && guess <= 'z')) {
+        // Check if the letter has already been guessed and is a valid character
+        if (string_contains_character(guessed, guess) || !(('a' <= guess && guess <= 'z') || guess == ' ' || guess == '-' || guess == '\'')) {
             clear = false;
             continue;  // Skip the rest of the loop iteration
         }
@@ -59,16 +62,17 @@ int main(int argc, char* argv[]) {
 
         if (letter_occurrences == 0) {
             mistakes++;
+            eliminated[eliminated_length] = guess;
+            eliminated_length++;
+            eliminated[eliminated_length] = '\0';
+        } else {
+            correct_guesses[strlen(correct_guesses)] = guess;
+            correct_guesses[strlen(correct_guesses)] = '\0';
         }
-
-        // Add the letter to eliminated
-        eliminated[eliminated_length] = guess;
-        eliminated_length++;
-        eliminated[eliminated_length] = '\0';
 
         // Check if the player has won
         if (remaining_letters == 0) {
-            print_game_state(secret, eliminated, mistakes);
+            print_game_state(secret, eliminated, mistakes, correct_guesses);
             printf("You win! The secret phrase was: %s\n", secret);
 
             // Exit the program as the player has won
@@ -78,7 +82,7 @@ int main(int argc, char* argv[]) {
 
     // Player loses
     if (mistakes == LOSING_MISTAKE) {
-        print_game_state(secret, eliminated, mistakes);
+        print_game_state(secret, eliminated, mistakes, correct_guesses);
         printf("You lose! The secret phrase was: %s\n", secret);
     }
 

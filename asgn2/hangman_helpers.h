@@ -23,7 +23,7 @@ bool validate_secret(const char *secret);
 
 bool is_lowercase_letter(char c);
 
-void print_game_state(const char* phrase, const char* eliminated, int mistakes);
+void print_game_state(const char* phrase, const char* eliminated, int mistakes, const char* correct_guesses);
 
 static const char *punctuation = " '-";
 
