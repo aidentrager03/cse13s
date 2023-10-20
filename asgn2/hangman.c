@@ -1,6 +1,6 @@
 #include "hangman_helpers.h"
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     if (argc != 2) {
         printf("wrong number of arguments\n");
         fprintf(stderr, "usage: %s <secret_phrase>\n", argv[0]);
@@ -8,26 +8,27 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    const char* secret = argv[1];
+    const char *secret = argv[1];
     char eliminated[MAX_LENGTH] = "";
-    char correct_guesses[MAX_LENGTH] = "";  // Store correct guesses
+    char correct_guesses[MAX_LENGTH] = ""; // Store correct guesses
     int mistakes = 0;
     bool clear = true;
 
     // Validate secret
     if (!validate_secret(secret)) {
-        fprintf(stderr, "the secret phrase must contain only lowercase letters, spaces, hyphens, and apostrophes\n");
+        fprintf(stderr, "the secret phrase must contain only lowercase letters, spaces, hyphens, "
+                        "and apostrophes\n");
         return 1;
     }
 
     size_t remaining_letters = 0;
     for (size_t z = strlen(secret); z > 0; z--) {
-        if (('a' <= secret[z - 1] && secret[z - 1] <= 'z') || secret[z - 1] == ' ' || secret[z - 1] == '-' || secret[z - 1] == '\'') {
+        if (('a' <= secret[z - 1] && secret[z - 1] <= 'z')) {
             remaining_letters++;
         }
     }
 
-    char guessed[MAX_LENGTH] = "";  // Store guessed letters
+    char guessed[MAX_LENGTH] = ""; // Store guessed letters
     size_t eliminated_length = 0;
 
     while (mistakes < LOSING_MISTAKE) {
@@ -40,17 +41,17 @@ int main(int argc, char* argv[]) {
         char guess = read_letter();
 
         // Check if the letter has already been guessed and is a valid character
-        if (string_contains_character(guessed, guess) || !(('a' <= guess && guess <= 'z') || guess == ' ' || guess == '-' || guess == '\'')) {
+        if (string_contains_character(guessed, guess) || !(('a' <= guess && guess <= 'z'))) {
             clear = false;
-            continue;  // Skip the rest of the loop iteration
+            continue; // Skip the rest of the loop iteration
         }
         clear = true;
         guessed[strlen(guessed)] = guess;
         guessed[strlen(guessed)] = '\0';
 
         // Check if the letter is in the secret
-        const char* secret_ptr = secret;  // Create a separate pointer
-        size_t letter_occurrences = 0;    // Count occurrences of the guessed letter
+        const char *secret_ptr = secret; // Create a separate pointer
+        size_t letter_occurrences = 0; // Count occurrences of the guessed letter
 
         while (*secret_ptr != '\0') {
             if (*secret_ptr == guess) {

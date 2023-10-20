@@ -1,14 +1,14 @@
 #include "hangman_helpers.h"
 
 bool is_lowercase_letter(char c) {
-    if (c >= 'a' && c <= 'z'){
-        return true;}
-    else{
-        return false;}
+    if (c >= 'a' && c <= 'z') {
+        return true;
+    } else {
+        return false;
+    }
 }
 
-
-bool validate_secret(const char* secret) {
+bool validate_secret(const char *secret) {
     if (strlen(secret) > 256) {
         printf("Secret is too long (max 256 characters).\n");
         return false;
@@ -24,8 +24,7 @@ bool validate_secret(const char* secret) {
     return true;
 }
 
-
-bool string_contains_character(const char* s, char c) {
+bool string_contains_character(const char *s, char c) {
     while (*s != '\0') {
         if (*s == c) {
             return true;
@@ -41,7 +40,8 @@ char read_letter(void) {
     return input;
 }
 
-void print_game_state(const char* phrase, const char* eliminated, int mistakes, const char* correct_guesses) {
+void print_game_state(
+    const char *phrase, const char *eliminated, int mistakes, const char *correct_guesses) {
     printf("%s\n", CLEAR_SCREEN);
 
     // Print gallows
@@ -54,7 +54,8 @@ void print_game_state(const char* phrase, const char* eliminated, int mistakes, 
     // Print phrase
     printf("Phrase: ");
     while (*phrase != '\0') {
-        if (string_contains_character(punctuation, *phrase) || string_contains_character(correct_guesses, *phrase)) {
+        if (string_contains_character(punctuation, *phrase)
+            || string_contains_character(correct_guesses, *phrase)) {
             printf("%c", *phrase);
         } else if (*phrase == ' ') {
             printf(" "); // Display spaces in the phrase
