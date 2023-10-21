@@ -35,9 +35,13 @@ bool string_contains_character(const char *s, char c) {
 }
 
 char read_letter(void) {
-    char input;
-    scanf(" %c", &input);
-    return input;
+    int input;
+    int actual;
+    while ((input = getchar()) != '\n') {
+        actual = input;
+    }
+    char input_char = (char) actual;
+    return input_char;
 }
 
 void print_game_state(
