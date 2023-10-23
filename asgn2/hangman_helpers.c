@@ -50,9 +50,9 @@ void print_game_state(
 
     // Print gallows
     if (mistakes < LOSING_MISTAKE) {
-        printf("%s", arts[mistakes]);
+        printf("%s\n", arts[mistakes]);
     } else {
-        printf("%s", arts[LOSING_MISTAKE]);
+        printf("%s\n", arts[LOSING_MISTAKE]);
     }
 
     // Print phrase
