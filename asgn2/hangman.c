@@ -17,8 +17,7 @@ int main(int argc, char *argv[]) {
     // Validate secret
     if (!validate_secret(secret)) {
         fprintf(stderr, "");
-        printf("the secret phrase must contain only lowercase letters, spaces, hyphens, and "
-               "apostrophes\n");
+        printf("the secret phrase must contain only lowercase letters, spaces, hyphens, and apostrophes\n");
         // the secret phrase must contain only lowercase letters, spaces, hyphens, and apostrophes
         return 1;
     }
@@ -50,6 +49,7 @@ int main(int argc, char *argv[]) {
         clear = true;
         guessed[strlen(guessed)] = guess;
         guessed[strlen(guessed)] = '\0';
+
         // Check if the letter is in the secret
         const char *secret_ptr = secret; // Create a separate pointer
         size_t letter_occurrences = 0; // Count occurrences of the guessed letter
