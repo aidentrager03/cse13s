@@ -16,8 +16,8 @@ int main(int argc, char *argv[]) {
 
     // Validate secret
     if (!validate_secret(secret)) {
-        fprintf(stderr, "\n");
-        // the secret phrase must contain only lowercase letters, spaces, hyphens, ""and apostrophes
+        fprintf(stderr, "");
+        // the secret phrase must contain only lowercase letters, spaces, hyphens, and apostrophes \n
         return 1;
     }
 
