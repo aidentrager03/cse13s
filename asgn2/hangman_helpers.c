@@ -10,7 +10,7 @@ bool is_lowercase_letter(char c) {
 
 bool validate_secret(const char *secret) {
     if (strlen(secret) > 256) {
-        printf("the secret phrase is over 256 characters\n");
+        printf("the secret phrase is over 256 characters");
         return false;
     }
     while (*secret != '\0') {
