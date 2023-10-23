@@ -16,9 +16,9 @@ bool validate_secret(const char *secret) {
     while (*secret != '\0') {
         if (!is_lowercase_letter(*secret) && *secret != ' ' && *secret != '\'' && *secret != '-') {
             printf("invalid character: '%c'\n", *secret);
-            fprintf(stderr,
-                "the secret phrase must contain only lowercase letters, spaces, hyphens, and "
-                "apostrophes\n");
+            fprintf(stderr, "");
+            printf("the secret phrase must contain only lowercase letters, spaces, hyphens, and "
+                   "apostrophes\n");
             return false;
         }
 
