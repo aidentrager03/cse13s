@@ -84,10 +84,10 @@ int main(int argc, char *argv[]) {
             for (size_t j = strlen(correct_guesses); j > i; j--) {
                 correct_guesses[j] = correct_guesses[j - 1];
             }
-            correct_guesses[i] = guess; // Insert the new character at the correct alphabetical position
+            correct_guesses[i]
+                = guess; // Insert the new character at the correct alphabetical position
             correct_guesses[strlen(correct_guesses) + 1] = '\0';
         }
-
 
         // Check if the player has won
         if (remaining_letters == 0) {
