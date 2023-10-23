@@ -64,10 +64,10 @@ int main(int argc, char *argv[]) {
         }
 
         if (letter_occurrences == 0) {
-            mistakes++;
+            // Append the guessed letter to the eliminated array
             eliminated[eliminated_length] = guess;
+            eliminated[eliminated_length + 1] = '\0'; // Null-terminate the string
             eliminated_length++;
-            eliminated[eliminated_length] = '\0';
         } else {
             correct_guesses[strlen(correct_guesses)] = guess;
             correct_guesses[strlen(correct_guesses)] = '\0';
