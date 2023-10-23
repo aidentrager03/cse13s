@@ -65,12 +65,20 @@ int main(int argc, char *argv[]) {
 
         if (letter_occurrences == 0) {
             mistakes++;
-            eliminated[eliminated_length] = guess;
+            // Shift all characters in 'eliminated' to the right
+            for (size_t i = eliminated_length; i > 0; i--) {
+                eliminated[i] = eliminated[i - 1];
+            }
+            eliminated[0] = guess; // Insert the new character at the beginning
             eliminated_length++;
             eliminated[eliminated_length] = '\0';
         } else {
-            correct_guesses[strlen(correct_guesses)] = guess;
-            correct_guesses[strlen(correct_guesses)] = '\0';
+            // Similar operation for 'correct_guesses'
+            for (size_t i = strlen(correct_guesses); i > 0; i--) {
+                correct_guesses[i] = correct_guesses[i - 1];
+            }
+            correct_guesses[0] = guess;
+            correct_guesses[strlen(correct_guesses) + 1] = '\0';
         }
 
         // Check if the player has won
