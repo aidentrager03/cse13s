@@ -46,7 +46,7 @@ char read_letter(void) {
 
 void print_game_state(
     const char *phrase, const char *eliminated, int mistakes, const char *correct_guesses) {
-    printf("%s\n", CLEAR_SCREEN);
+    printf("%s", CLEAR_SCREEN);
 
     // Print gallows
     if (mistakes < LOSING_MISTAKE) {
