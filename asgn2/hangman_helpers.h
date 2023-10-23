@@ -13,7 +13,7 @@
 #define LOSING_MISTAKE 6
 
 // Printing this string clears the screen.
-#define CLEAR_SCREEN "\033[1;1H\033[2J       "
+#define CLEAR_SCREEN "\033[1;1H\033[2J"
 
 bool string_contains_character(const char *s, char c);
 
