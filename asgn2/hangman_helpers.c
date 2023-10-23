@@ -57,7 +57,7 @@ void print_game_state(
 
     // Print phrase
     printf("\n");
-    printf("Phrase: ");
+    printf("    Phrase: ");
     while (*phrase != '\0') {
         if (string_contains_character(punctuation, *phrase)
             || string_contains_character(correct_guesses, *phrase)) {
