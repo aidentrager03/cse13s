@@ -15,7 +15,7 @@ void evaluate_expression(char *expr) {
     stack_clear();
     char *saveptr;
     char *token = strtok_r(expr, " \n", &saveptr);
-    
+
     while (token != NULL) {
         if (strcmp(token, "+") == 0) {
             apply_binary_operator(binary_operators['+']);
@@ -66,8 +66,7 @@ int main(int argc, char *argv[]) {
     while (1) {
         fprintf(stderr, "> ");
         if (fgets(input_buffer, sizeof(input_buffer), stdin) == NULL) {
-            // break;
-            printf("completed");
+            break;
         }
         evaluate_expression(input_buffer);
     }

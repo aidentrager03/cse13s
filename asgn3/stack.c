@@ -1,4 +1,5 @@
 #include "stack.h"
+
 #include <stdio.h>
 double stack[STACK_CAPACITY];
 int stack_size = 0;
