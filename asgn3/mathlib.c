@@ -65,10 +65,6 @@ double Cos(double x) {
     return result;
 }
 
-
-
-
-
 double Tan(double x) {
     return Sin(x) / Cos(x);
 }
