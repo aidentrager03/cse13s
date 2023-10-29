@@ -53,7 +53,7 @@ double Cos(double x) {
     double result = 0;
     double term = 1;
     double given = 1;
-    int i = 2;
+    int i = 0;
 
     while (!IsZero(term)) {
         result += term;
@@ -64,6 +64,10 @@ double Cos(double x) {
 
     return result;
 }
+
+
+
+
 
 double Tan(double x) {
     return Sin(x) / Cos(x);
