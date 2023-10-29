@@ -49,7 +49,7 @@ void evaluate_expression(char *expr) {
 
     double result;
     if (stack_size == 1 && stack_peek(&result)) {
-        printf("Result: %.10f\n", result);
+        printf("%.10f\n", result);
     } else {
         fprintf(stderr, "Invalid expression\n");
     }
