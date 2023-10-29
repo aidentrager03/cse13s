@@ -18,6 +18,8 @@ double operator_mul(double lhs, double rhs);
 
 double operator_div(double lhs, double rhs);
 
+double operator_mod(double lhs, double rhs);
+
 static const binary_operator_fn binary_operators[256] = {
     ['+'] = operator_add,
     ['-'] = operator_sub,

@@ -28,7 +28,13 @@ void evaluate_expression(char *expr) {
                 return;
             }
             apply_binary_operator(binary_operators['-']);
-        } else if (strcmp(token, "*") == 0) {
+        } else if (strcmp(token, "%") == 0) {
+            if (stack_size < 2) {
+                fprintf(stderr, "%s", ERROR_BINARY_OPERATOR);
+                return;
+            }
+            apply_binary_operator(binary_operators['%']);
+        }else if (strcmp(token, "*") == 0) {
             if (stack_size < 2) {
                 fprintf(stderr, "%s", ERROR_BINARY_OPERATOR);
                 return;
@@ -75,8 +81,14 @@ void evaluate_expression(char *expr) {
             if (parse_double(token, &value)) {
                 stack_push(value);
             } else {
-                fprintf(stderr, "Invalid token: %s\n", token);
+                if (strlen(token)==1){
+                fprintf(stderr, ERROR_BAD_CHAR, token[0]);
                 return;
+                }
+                else{
+                    fprintf(stderr, ERROR_BAD_STRING, token);
+                return;
+                }
             }
         }
         token = strtok_r(NULL, " \n", &saveptr);
