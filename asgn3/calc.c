@@ -11,29 +11,64 @@
 
 // Function to process and evaluate RPN expressions
 void evaluate_expression(char *expr) {
-    // Initialize the stack and other variables
     stack_clear();
     char *saveptr;
     char *token = strtok_r(expr, " \n", &saveptr);
 
     while (token != NULL) {
         if (strcmp(token, "+") == 0) {
+            if (stack_size < 2) {
+                fprintf(stderr, "%s", ERROR_BINARY_OPERATOR);
+                return;
+            }
             apply_binary_operator(binary_operators['+']);
         } else if (strcmp(token, "-") == 0) {
+            if (stack_size < 2) {
+                fprintf(stderr, "%s", ERROR_BINARY_OPERATOR);
+                return;
+            }
             apply_binary_operator(binary_operators['-']);
         } else if (strcmp(token, "*") == 0) {
+            if (stack_size < 2) {
+                fprintf(stderr, "%s", ERROR_BINARY_OPERATOR);
+                return;
+            }
             apply_binary_operator(binary_operators['*']);
         } else if (strcmp(token, "/") == 0) {
+            if (stack_size < 2) {
+                fprintf(stderr, "%s", ERROR_BINARY_OPERATOR);
+                return;
+            }
             apply_binary_operator(binary_operators['/']);
         } else if (strcmp(token, "s") == 0) {
+            if (stack_size < 1) {
+                fprintf(stderr, "%s", ERROR_BINARY_OPERATOR);
+                return;
+            }
             apply_unary_operator(my_unary_operators['s']);
         } else if (strcmp(token, "c") == 0) {
+            if (stack_size < 1) {
+                fprintf(stderr, "%s", ERROR_UNARY_OPERATOR);
+                return;
+            }
             apply_unary_operator(my_unary_operators['c']);
         } else if (strcmp(token, "t") == 0) {
+            if (stack_size < 1) {
+                fprintf(stderr, "%s", ERROR_UNARY_OPERATOR);
+                return;
+            }
             apply_unary_operator(my_unary_operators['t']);
         } else if (strcmp(token, "r") == 0) {
+            if (stack_size < 1) {
+                fprintf(stderr, "%s", ERROR_UNARY_OPERATOR);
+                return;
+            }
             apply_unary_operator(my_unary_operators['r']);
         } else if (strcmp(token, "a") == 0) {
+            if (stack_size < 1) {
+                fprintf(stderr, "%s", ERROR_UNARY_OPERATOR);
+                return;
+            }
             apply_unary_operator(my_unary_operators['a']);
         } else {
             double value;
