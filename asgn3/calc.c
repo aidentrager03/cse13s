@@ -116,9 +116,12 @@ void evaluate_expression(char *expr) {
     }
 
     for (int j = i - 1; j >= 0; j--) {
-        printf(" %.10f", results[j]);
+        if (j == 0) {
+            printf("%.10f\n", results[j]);
+        } else {
+            printf("%.10f ", results[j]);
+        }
     }
-    printf("\n");
 }
 
 int main(int argc, char *argv[]) {
