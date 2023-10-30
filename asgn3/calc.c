@@ -14,7 +14,7 @@ void evaluate_expression(char *expr) {
     stack_clear();
     char *saveptr;
     char *token = strtok_r(expr, " \n", &saveptr);
-
+    
     while (token != NULL) {
         if (strcmp(token, "+") == 0) {
             if (stack_size < 2) {
@@ -79,7 +79,10 @@ void evaluate_expression(char *expr) {
         } else {
             double value;
             if (parse_double(token, &value)) {
-                stack_push(value);
+                if(!stack_push(value)){
+                    fprintf(stderr, ERROR_NO_SPACE, value);
+                    return;
+                }
             } else {
                 if (strlen(token)==1){
                 fprintf(stderr, ERROR_BAD_CHAR, token[0]);
@@ -95,11 +98,16 @@ void evaluate_expression(char *expr) {
     }
 
     double result;
-    if (stack_size == 1 && stack_peek(&result)) {
-        printf("%.10f\n", result);
-    } else {
+    while(1){
+    if (stack_pop(&result)) {//stack_size == 1 && 
+        printf("%.10f ", result);
+    } else if(stack_size >= 1){
         fprintf(stderr, "Invalid expression\n");
+    } else{
+        printf("\n");
+        break;
     }
+}
 }
 
 int main(int argc, char *argv[]) {
