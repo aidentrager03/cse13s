@@ -6,9 +6,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #define BUFFER_SIZE 1024
-
+int use_libm;
 // Function to process and evaluate RPN expressions
 void evaluate_expression(char *expr) {
     stack_clear();
@@ -51,19 +52,32 @@ void evaluate_expression(char *expr) {
                 fprintf(stderr, "%s", ERROR_BINARY_OPERATOR);
                 return;
             }
-            apply_unary_operator(my_unary_operators['s']);
+            if (use_libm) {
+                apply_unary_operator(my_unary_operators['s']);
+            } else {
+                apply_unary_operator(libm_unary_operators['s']);
+            }
+
         } else if (strcmp(token, "c") == 0) {
             if (stack_size < 1) {
                 fprintf(stderr, "%s", ERROR_UNARY_OPERATOR);
                 return;
             }
-            apply_unary_operator(my_unary_operators['c']);
+            if (use_libm) {
+                apply_unary_operator(my_unary_operators['c']);
+            } else {
+                apply_unary_operator(libm_unary_operators['c']);
+            }
         } else if (strcmp(token, "t") == 0) {
             if (stack_size < 1) {
                 fprintf(stderr, "%s", ERROR_UNARY_OPERATOR);
                 return;
             }
-            apply_unary_operator(my_unary_operators['t']);
+            if (use_libm) {
+                apply_unary_operator(my_unary_operators['t']);
+            } else {
+                apply_unary_operator(libm_unary_operators['t']);
+            }
         } else if (strcmp(token, "r") == 0) {
             if (stack_size < 1) {
                 fprintf(stderr, "%s", ERROR_UNARY_OPERATOR);
@@ -108,9 +122,22 @@ void evaluate_expression(char *expr) {
 }
 
 int main(int argc, char *argv[]) {
-    if (argc != 1) {
-        fprintf(stderr, "Usage: %s\n", argv[0]);
-        return 1;
+    use_libm = 0;
+    int show_help = 0;
+
+    // Parse command-line options
+    int opt;
+    while ((opt = getopt(argc, argv, "mh")) != -1) {
+        switch (opt) {
+        case 'm': use_libm = 1; break;
+        case 'h': show_help = 1; break;
+        default: fprintf(stderr, USAGE, argv[0]); return 1;
+        }
+    }
+
+    if (show_help) {
+        fprintf(stderr, USAGE, argv[0]);
+        return 0;
     }
 
     char input_buffer[BUFFER_SIZE];
