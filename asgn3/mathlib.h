@@ -1,7 +1,7 @@
 #ifndef __MATHLIB_H__
 #define __MATHLIB_H__
 
-#define EPSILON 1e-14
+#define EPSILON 1e-20
 /*
  * Compute the absolute value of x.
  */
