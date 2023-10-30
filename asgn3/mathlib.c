@@ -34,15 +34,17 @@ double Sqrt(double x) {
 }
 
 double Sin(double x) {
+    double y;
+    y = fmod(x, (2 * M_PI));
     double result = 0;
-    double term = x;
-    double given = x;
+    double term = y;
+    double given = y;
     int i = 1;
 
     while (!IsZero(term)) {
         result += term;
         i += 2;
-        given *= -x * x / i / (i - 1);
+        given *= -y * y / i / (i - 1);
         term = given;
     }
 
@@ -50,6 +52,8 @@ double Sin(double x) {
 }
 
 double Cos(double x) {
+    double y;
+    y = fmod(x, (2 * M_PI));
     double result = 0;
     double term = 1;
     double given = 1;
@@ -58,7 +62,7 @@ double Cos(double x) {
     while (!IsZero(term)) {
         result += term;
         i += 2;
-        given *= -x * x / i / (i - 1);
+        given *= -y * y / i / (i - 1);
         term = given;
     }
 
