@@ -116,7 +116,7 @@ void evaluate_expression(char *expr) {
     }
 
     for (int j = i - 1; j >= 0; j--) {
-        printf("%.10f ", results[j]);
+        printf(" %.10f", results[j]);
     }
     printf("\n");
 }
@@ -131,12 +131,12 @@ int main(int argc, char *argv[]) {
         switch (opt) {
         case 'm': use_libm = 1; break;
         case 'h': show_help = 1; break;
-        default: fprintf(stderr, USAGE, argv[0]); return 1;
+        default: fprintf(stdout, USAGE, argv[0]); return 1;
         }
     }
 
     if (show_help) {
-        fprintf(stderr, USAGE, argv[0]);
+        fprintf(stdout, USAGE, argv[0]);
         return 0;
     }
 
