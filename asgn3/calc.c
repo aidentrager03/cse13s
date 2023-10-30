@@ -14,7 +14,7 @@ void evaluate_expression(char *expr) {
     stack_clear();
     char *saveptr;
     char *token = strtok_r(expr, " \n", &saveptr);
-
+    double results[BUFFER_SIZE]; // Array to store results
     while (token != NULL) {
         if (strcmp(token, "+") == 0) {
             if (stack_size < 2) {
@@ -96,17 +96,15 @@ void evaluate_expression(char *expr) {
         token = strtok_r(NULL, " \n", &saveptr);
     }
 
-    double result;
-    while (1) {
-        if (stack_pop(&result)) { //stack_size == 1 &&
-            printf("%.10f ", result);
-        } else if (stack_size >= 1) {
-            fprintf(stderr, "Invalid expression\n");
-        } else {
-            printf("\n");
-            break;
-        }
+    int i = 0;
+    while (stack_pop(&results[i])) {
+        i++;
     }
+
+    for (int j = i - 1; j >= 0; j--) {
+        printf("%.10f ", results[j]);
+    }
+    printf("\n");
 }
 
 int main(int argc, char *argv[]) {
