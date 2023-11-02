@@ -65,7 +65,7 @@ int main(int argc, char *argv[]) {
             printf("SYNOPSIS\n");
             printf("  A collection of comparison-based sorting algorithms.\n\n");
             printf("USAGE\n");
-            printf("  %s [-Hahbsqinrp] [-n length] [-r seed]\n\n", argv[0]);
+            printf("  %s [-Hahbsqi] [-n length] [-p elements] [-r seed]\n\n", argv[0]);
             printf("OPTIONS\n");
             printf("  -H              Display program help and usage.\n");
             printf("  -a              Enable all sorts.\n");
@@ -75,9 +75,8 @@ int main(int argc, char *argv[]) {
             printf("  -q              Enable Quick Sort.\n");
             printf("  -i              Enable Insertion Sort.\n");
             printf("  -n length       Specify number of array elements (default: 100).\n");
+            printf("  -p elements     Specify number of elements to print (default: 100).\n");
             printf("  -r seed         Specify random seed (default: 13371453).\n");
-            printf("  -p elements     Print out elements number of elements from the array "
-                   "(default: 100).\n");
             return 0;
 
         case 'a': enable_all = 1; break;
@@ -107,7 +106,7 @@ int main(int argc, char *argv[]) {
         printf("SYNOPSIS\n");
         printf("  A collection of comparison-based sorting algorithms.\n\n");
         printf("USAGE\n");
-        printf("  %s [-Hahbsqinrp] [-n length] [-r seed]\n\n", argv[0]);
+        printf("  %s [-Hahbsqi] [-n length] [-p elements] [-r seed]\n\n", argv[0]);
         printf("OPTIONS\n");
         printf("  -H              Display program help and usage.\n");
         printf("  -a              Enable all sorts.\n");
@@ -119,8 +118,7 @@ int main(int argc, char *argv[]) {
         printf("  -n length       Specify number of array elements (default: 100).\n");
         printf("  -p elements     Specify number of elements to print (default: 100).\n");
         printf("  -r seed         Specify random seed (default: 13371453).\n");
-
-        return 0;
+        return 1;
     }
 
     // Use srandom and print the random seed
