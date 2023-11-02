@@ -1,11 +1,11 @@
 #include "set.h"
 
 Set set_empty(void) {
-    return 0;  // An empty set is represented as 0.
+    return 0; // An empty set is represented as 0.
 }
 
 Set set_universal(void) {
-    return 0xFF;  // The universal set contains all members (0-7).
+    return 0xFF; // The universal set contains all members (0-7).
 }
 
 bool set_member(Set s, int x) {

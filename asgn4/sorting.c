@@ -39,7 +39,7 @@ void testSortingAlgorithm(const char *algorithmName, void (*sortFunction)(Stats 
         int elements_to_print = (print_elements < size) ? print_elements : size;
         for (int i = 0; i < elements_to_print; i++) {
             printf("%12d", arr[i]);
-            if ((i + 1) % 5 == 0 || i == (elements_to_print-1)) {
+            if ((i + 1) % 5 == 0 || i == (elements_to_print - 1)) {
                 printf("\n");
             }
         }

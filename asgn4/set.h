@@ -27,7 +27,6 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-
 /*
 *
 * This type lets you declare a set with type Set.  We represent the Set
@@ -50,20 +49,17 @@
 */
 typedef uint8_t Set;
 
-
 /*
 * This function returns an empty set.  You can assign its return value
 * to a variable of type Set.
 */
 Set set_empty(void);
 
-
 /*
 * This function returns the universal set.  You can assign its return value
 * to a variable of type Set.
 */
 Set set_universal(void);
-
 
 /*
 * Determine whether the Set s has member x.
@@ -76,7 +72,6 @@ Set set_universal(void);
 */
 bool set_member(Set s, int x);
 
-
 /*
 * Add the member x to the Set s.
 *
@@ -87,7 +82,6 @@ bool set_member(Set s, int x);
 */
 Set set_insert(Set s, int x);
 
-
 /*
 * Remove the member x from the Set s.
 *
@@ -97,7 +91,6 @@ Set set_insert(Set s, int x);
 * Return value:  the new Set, which will not contain member x.
 */
 Set set_remove(Set s, int x);
-
 
 /*
 * Compute the union of two sets.
@@ -110,7 +103,6 @@ Set set_remove(Set s, int x);
 */
 Set set_union(Set s, Set t);
 
-
 /*
 * Compute the intersection of two sets.
 *
@@ -122,7 +114,6 @@ Set set_union(Set s, Set t);
 */
 Set set_intersect(Set s, Set t);
 
-
 /*
 * Compute the difference of two sets.
 *
@@ -133,7 +124,6 @@ Set set_intersect(Set s, Set t);
 *                s but NOT in t.
 */
 Set set_difference(Set s, Set t);
-
 
 /*
 * Compute the complement of a set.
