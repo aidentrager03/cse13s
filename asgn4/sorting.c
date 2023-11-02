@@ -101,6 +101,27 @@ int main(int argc, char *argv[]) {
         default: fprintf(stderr, "Invalid option\n"); return 1;
         }
     }
+    if (!(enable_all || enable_heap || enable_batcher || enable_shell || enable_quick
+            || enable_insert)) {
+        printf("Select at least one sort to perform.\n");
+        printf("SYNOPSIS\n");
+        printf("  A collection of comparison-based sorting algorithms.\n\n");
+        printf("USAGE\n");
+        printf("  %s [-Hahbsqinrp] [-n length] [-r seed]\n\n", argv[0]);
+        printf("OPTIONS\n");
+        printf("  -H              Display program help and usage.\n");
+        printf("  -a              Enable all sorts.\n");
+        printf("  -h              Enable Heap Sort.\n");
+        printf("  -b              Enable Batcher Sort.\n");
+        printf("  -s              Enable Shell Sort.\n");
+        printf("  -q              Enable Quick Sort.\n");
+        printf("  -i              Enable Insertion Sort.\n");
+        printf("  -n length       Specify number of array elements (default: 100).\n");
+        printf("  -r seed         Specify random seed (default: 13371453).\n");
+        printf("  -p elements     Print out elements number of elements from the array "
+               "(default: 13371453).\n");
+        return 0;
+    }
 
     // Use srandom and print the random seed
     srandom(seed);
