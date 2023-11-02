@@ -1,7 +1,11 @@
 #include "set.h"
 
 Set set_empty(void) {
-    return (Set) 0;
+    return 0;  // An empty set is represented as 0.
+}
+
+Set set_universal(void) {
+    return 0xFF;  // The universal set contains all members (0-7).
 }
 
 bool set_member(Set s, int x) {
@@ -15,26 +19,26 @@ Set set_insert(Set s, int x) {
 }
 
 Set set_remove(Set s, int x) {
-    // Clear the x-th bit in the set to 0.
+    // Clear the x-th bit in the set (set it to 0).
     return s & ~(1 << x);
 }
 
 Set set_union(Set s, Set t) {
-    // Perform a bitwise OR operation to get the union of two sets.
+    // Compute the union using the bitwise OR operation.
     return s | t;
 }
 
 Set set_intersect(Set s, Set t) {
-    // Perform a bitwise AND operation to get the intersection of two sets.
+    // Compute the intersection using the bitwise AND operation.
     return s & t;
 }
 
 Set set_difference(Set s, Set t) {
-    // Perform a bitwise AND NOT operation to get the difference of two sets.
+    // Compute the difference using the bitwise AND and NOT operations.
     return s & ~t;
 }
 
 Set set_complement(Set s) {
-    // Perform a bitwise NOT operation to get the complement of the set.
+    // Compute the complement using the bitwise NOT operation.
     return ~s;
 }

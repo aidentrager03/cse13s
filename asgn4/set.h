@@ -1,12 +1,12 @@
 /*
-* DO NOT CHANGE THIS FILE
-*
 * This file contains the declarations for a Set library.
 * You need to write corresponding functions in set.c
 *
+* DO NOT CHANGE THIS FILE
+*
 * Using the Functions
 *
-*   Use these functions to create and manipulate sets of integers 0 through 31.
+*   Use these functions to create and manipulate sets of integers 0 through 7.
 *   Read the function headers for descriptions of their use.
 *
 * Implement these functions using the C bitwise operations:
@@ -26,6 +26,7 @@
 
 #include <stdbool.h>
 #include <stdint.h>
+
 
 /*
 *
@@ -49,42 +50,54 @@
 */
 typedef uint8_t Set;
 
+
 /*
 * This function returns an empty set.  You can assign its return value
 * to a variable of type Set.
 */
 Set set_empty(void);
 
+
+/*
+* This function returns the universal set.  You can assign its return value
+* to a variable of type Set.
+*/
+Set set_universal(void);
+
+
 /*
 * Determine whether the Set s has member x.
 *
 *   s:  a variable of type Set.
-*   x:  an integer value from 0 through 31.
+*   x:  an integer value from 0 through 7.
 *
 * Return value:  true (== 1) if x is in s
 *                false (== 0) otherwise
 */
 bool set_member(Set s, int x);
 
+
 /*
 * Add the member x to the Set s.
 *
 *   s:  a variable of type Set.
-*   x:  an integer value from 0 through 31.
+*   x:  an integer value from 0 through 7.
 *
 * Return value:  the new Set, which will contain member x.
 */
 Set set_insert(Set s, int x);
 
+
 /*
 * Remove the member x from the Set s.
 *
 *   s:  a variable of type Set.
-*   x:  an integer value from 0 through 31.
+*   x:  an integer value from 0 through 7.
 *
 * Return value:  the new Set, which will not contain member x.
 */
 Set set_remove(Set s, int x);
+
 
 /*
 * Compute the union of two sets.
@@ -97,6 +110,7 @@ Set set_remove(Set s, int x);
 */
 Set set_union(Set s, Set t);
 
+
 /*
 * Compute the intersection of two sets.
 *
@@ -108,6 +122,7 @@ Set set_union(Set s, Set t);
 */
 Set set_intersect(Set s, Set t);
 
+
 /*
 * Compute the difference of two sets.
 *
@@ -118,6 +133,7 @@ Set set_intersect(Set s, Set t);
 *                s but NOT in t.
 */
 Set set_difference(Set s, Set t);
+
 
 /*
 * Compute the complement of a set.

@@ -31,7 +31,7 @@ void testSortingAlgorithm(const char *algorithmName, void (*sortFunction)(Stats 
     reset(stats); // Reset the statistics before sorting
 
     // If the algorithm should be sorted, sort the array
-    if (print_elements > 0) {
+    if (print_elements >= 0) {
         sortFunction(stats, arr, size);
         print_stats(stats, algorithmName, size);
 
@@ -39,7 +39,7 @@ void testSortingAlgorithm(const char *algorithmName, void (*sortFunction)(Stats 
         int elements_to_print = (print_elements < size) ? print_elements : size;
         for (int i = 0; i < elements_to_print; i++) {
             printf("%12d", arr[i]);
-            if ((i + 1) % 5 == 0) {
+            if ((i + 1) % 5 == 0 || i == (elements_to_print-1)) {
                 printf("\n");
             }
         }
@@ -112,25 +112,20 @@ int main(int argc, char *argv[]) {
 
     // Generate a random array
     generateRandomArray(arr, size);
-
+    if (enable_all || enable_insert) {
+        testSortingAlgorithm("Insertion Sort", insertion_sort, arr, size, print_elements);
+    }
     if (enable_all || enable_heap) {
         testSortingAlgorithm("Heap Sort", heap_sort, arr, size, print_elements);
     }
-
-    if (enable_all || enable_batcher) {
-        testSortingAlgorithm("Batcher Sort", batcher_sort, arr, size, print_elements);
-    }
-
     if (enable_all || enable_shell) {
         testSortingAlgorithm("Shell Sort", shell_sort, arr, size, print_elements);
     }
-
     if (enable_all || enable_quick) {
         testSortingAlgorithm("Quick Sort", quick_sort, arr, size, print_elements);
     }
-
-    if (enable_all || enable_insert) {
-        testSortingAlgorithm("Insertion Sort", insertion_sort, arr, size, print_elements);
+    if (enable_all || enable_batcher) {
+        testSortingAlgorithm("Batcher Sort", batcher_sort, arr, size, print_elements);
     }
 
     // Free dynamically allocated memory
