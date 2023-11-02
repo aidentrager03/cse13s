@@ -117,9 +117,9 @@ int main(int argc, char *argv[]) {
         printf("  -q              Enable Quick Sort.\n");
         printf("  -i              Enable Insertion Sort.\n");
         printf("  -n length       Specify number of array elements (default: 100).\n");
+        printf("  -p elements     Specify number of elements to print (default: 100).\n");
         printf("  -r seed         Specify random seed (default: 13371453).\n");
-        printf("  -p elements     Print out elements number of elements from the array "
-               "(default: 13371453).\n");
+
         return 0;
     }
 
