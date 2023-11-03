@@ -118,8 +118,7 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, "  -q              Enable Quick Sort.\n");
         fprintf(stderr, "  -i              Enable Insertion Sort.\n");
         fprintf(stderr, "  -n length       Specify the number of array elements (default: 100).\n");
-        fprintf(
-            stderr, "  -p elements     Specify the number of elements to print (default: 100).\n");
+        fprintf(stderr, "  -p elements     Specify the number of elements to print (default: 100).\n");
         fprintf(stderr, "  -r seed         Specify random seed (default: 13371453).\n");
         return 1;
     }
