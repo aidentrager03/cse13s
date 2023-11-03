@@ -38,7 +38,7 @@ void testSortingAlgorithm(const char *algorithmName, void (*sortFunction)(Stats 
         // Print the sorted array, limiting to print_elements or size, whichever is smaller
         int elements_to_print = (print_elements < size) ? print_elements : size;
         for (int i = 0; i < elements_to_print; i++) {
-            printf("%12d", arr[i]);
+            printf(" %12d", arr[i]);
             if ((i + 1) % 5 == 0 || i == (elements_to_print - 1)) {
                 printf("\n");
             }
@@ -118,7 +118,8 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, "  -q              Enable Quick Sort.\n");
         fprintf(stderr, "  -i              Enable Insertion Sort.\n");
         fprintf(stderr, "  -n length       Specify the number of array elements (default: 100).\n");
-        fprintf(stderr, "  -p elements     Specify the number of elements to print (default: 100).\n");
+        fprintf(
+            stderr, "  -p elements     Specify the number of elements to print (default: 100).\n");
         fprintf(stderr, "  -r seed         Specify random seed (default: 13371453).\n");
         return 1;
     }
