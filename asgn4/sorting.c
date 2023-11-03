@@ -62,21 +62,23 @@ int main(int argc, char *argv[]) {
     while ((opt = getopt(argc, argv, "Hahbsqin:r:p:")) != -1) {
         switch (opt) {
         case 'H':
-            printf("SYNOPSIS\n");
-            printf("  A collection of comparison-based sorting algorithms.\n\n");
-            printf("USAGE\n");
-            printf("  %s [-Hahbsqi] [-n length] [-p elements] [-r seed]\n\n", argv[0]);
-            printf("OPTIONS\n");
-            printf("  -H              Display program help and usage.\n");
-            printf("  -a              Enable all sorts.\n");
-            printf("  -h              Enable Heap Sort.\n");
-            printf("  -b              Enable Batcher Sort.\n");
-            printf("  -s              Enable Shell Sort.\n");
-            printf("  -q              Enable Quick Sort.\n");
-            printf("  -i              Enable Insertion Sort.\n");
-            printf("  -n length       Specify number of array elements (default: 100).\n");
-            printf("  -p elements     Specify number of elements to print (default: 100).\n");
-            printf("  -r seed         Specify random seed (default: 13371453).\n");
+            fprintf(stderr, "SYNOPSIS\n");
+            fprintf(stderr, "  A collection of comparison-based sorting algorithms.\n\n");
+            fprintf(stderr, "USAGE\n");
+            fprintf(stderr, "  %s [-Hahbsqi] [-n length] [-p elements] [-r seed]\n\n", argv[0]);
+            fprintf(stderr, "OPTIONS\n");
+            fprintf(stderr, "  -H              Display program help and usage.\n");
+            fprintf(stderr, "  -a              Enable all sorts.\n");
+            fprintf(stderr, "  -h              Enable Heap Sort.\n");
+            fprintf(stderr, "  -b              Enable Batcher Sort.\n");
+            fprintf(stderr, "  -s              Enable Shell Sort.\n");
+            fprintf(stderr, "  -q              Enable Quick Sort.\n");
+            fprintf(stderr, "  -i              Enable Insertion Sort.\n");
+            fprintf(
+                stderr, "  -n length       Specify the number of array elements (default: 100).\n");
+            fprintf(stderr,
+                "  -p elements     Specify the number of elements to print (default: 100).\n");
+            fprintf(stderr, "  -r seed         Specify random seed (default: 13371453).\n");
             return 0;
 
         case 'a': enable_all = 1; break;
@@ -102,22 +104,23 @@ int main(int argc, char *argv[]) {
     }
     if (!(enable_all || enable_heap || enable_batcher || enable_shell || enable_quick
             || enable_insert)) {
-        printf("Select at least one sort to perform.\n");
-        printf("SYNOPSIS\n");
-        printf("  A collection of comparison-based sorting algorithms.\n\n");
-        printf("USAGE\n");
-        printf("  %s [-Hahbsqi] [-n length] [-p elements] [-r seed]\n\n", argv[0]);
-        printf("OPTIONS\n");
-        printf("  -H              Display program help and usage.\n");
-        printf("  -a              Enable all sorts.\n");
-        printf("  -h              Enable Heap Sort.\n");
-        printf("  -b              Enable Batcher Sort.\n");
-        printf("  -s              Enable Shell Sort.\n");
-        printf("  -q              Enable Quick Sort.\n");
-        printf("  -i              Enable Insertion Sort.\n");
-        printf("  -n length       Specify number of array elements (default: 100).\n");
-        printf("  -p elements     Specify number of elements to print (default: 100).\n");
-        printf("  -r seed         Specify random seed (default: 13371453).\n");
+        fprintf(stderr, "Select at least one sort to perform.\n");
+        fprintf(stderr, "SYNOPSIS\n");
+        fprintf(stderr, "  A collection of comparison-based sorting algorithms.\n\n");
+        fprintf(stderr, "USAGE\n");
+        fprintf(stderr, "  %s [-Hahbsqi] [-n length] [-p elements] [-r seed]\n\n", argv[0]);
+        fprintf(stderr, "OPTIONS\n");
+        fprintf(stderr, "  -H              Display program help and usage.\n");
+        fprintf(stderr, "  -a              Enable all sorts.\n");
+        fprintf(stderr, "  -h              Enable Heap Sort.\n");
+        fprintf(stderr, "  -b              Enable Batcher Sort.\n");
+        fprintf(stderr, "  -s              Enable Shell Sort.\n");
+        fprintf(stderr, "  -q              Enable Quick Sort.\n");
+        fprintf(stderr, "  -i              Enable Insertion Sort.\n");
+        fprintf(stderr, "  -n length       Specify the number of array elements (default: 100).\n");
+        fprintf(
+            stderr, "  -p elements     Specify the number of elements to print (default: 100).\n");
+        fprintf(stderr, "  -r seed         Specify random seed (default: 13371453).\n");
         return 1;
     }
 
