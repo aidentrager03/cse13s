@@ -1,30 +1,36 @@
 #include "batcher.h"
-
 #include "stats.h"
-
 #include <stdio.h>
 
-// Merge Exchange Sort (Batcher's Method)
-void batcher_sort(Stats *stats, int A[], int n) {
+// Comparator function for sorting
+int comparator(Stats *stats, int A[], int x, int y) {
+    int cmp_result = cmp(stats, A[x], A[y]);
+    if (cmp_result > 0) {
+        swap(stats, &A[x], &A[y]);
+    }
+    return cmp_result;
+}
+
+void batcher_sort(Stats *pstats, int A[], int n) {
     if (n == 0) {
         return;
     }
+
     int t = 1;
     while ((1 << t) < n) {
         t++;
     }
 
-    for (int p = (1 << (t - 1)); p > 0; p >>= 1) {
-        int q = (1 << (t - 1));
+    int p = 1 << (t - 1);
+    while (p > 0) {
+        int q = 1 << (t - 1);
         int r = 0;
         int d = p;
 
         while (d > 0) {
             for (int i = 0; i < n - d; i++) {
                 if ((i & p) == r) {
-                    if (cmp(stats, A[i], A[i + d]) > 0) {
-                        swap(stats, &A[i], &A[i + d]);
-                    }
+                    comparator(pstats, A, i, i + d);
                 }
             }
             int t2 = p + q;
@@ -37,5 +43,6 @@ void batcher_sort(Stats *stats, int A[], int n) {
             }
             q >>= 1;
         }
+        p >>= 1;
     }
 }
