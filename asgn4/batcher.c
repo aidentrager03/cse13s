@@ -1,5 +1,7 @@
 #include "batcher.h"
+
 #include "stats.h"
+
 #include <stdio.h>
 
 // Comparator function for sorting
@@ -45,4 +47,4 @@ void batcher_sort(Stats *pstats, int A[], int n) {
         }
         p >>= 1;
     }
-}
+} //y
