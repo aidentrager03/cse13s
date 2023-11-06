@@ -2,15 +2,10 @@
 
 #include "stats.h"
 
-#include <stdio.h>
-
-// Comparator function for sorting
-int comparator(Stats *stats, int A[], int x, int y) {
-    int cmp_result = cmp(stats, A[x], A[y]);
-    if (cmp_result > 0) {
+void comparator(Stats *stats, int A[], int x, int y) {
+    if (cmp(stats, A[x], A[y]) > 0) {
         swap(stats, &A[x], &A[y]);
     }
-    return cmp_result;
 }
 
 void batcher_sort(Stats *pstats, int A[], int n) {
@@ -35,16 +30,10 @@ void batcher_sort(Stats *pstats, int A[], int n) {
                     comparator(pstats, A, i, i + d);
                 }
             }
-            int t2 = p + q;
-            if (t2 < p) {
-                r = t2;
-                d = t2;
-                p = q;
-            } else {
-                d = q;
-            }
+            d = q - p;
             q >>= 1;
+            r = p;
         }
         p >>= 1;
     }
-} //y
+}
