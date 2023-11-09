@@ -64,9 +64,6 @@ char **graph_get_names(const Graph *g) {
 
 void graph_add_edge(Graph *g, uint32_t start, uint32_t end, uint32_t weight) {
     g->weights[start][end] = weight;
-    if (!g->directed) {
-        g->weights[end][start] = weight;
-    }
 }
 
 uint32_t graph_get_weight(const Graph *g, uint32_t start, uint32_t end) {
@@ -94,7 +91,6 @@ void graph_print(const Graph *g) {
     }
 
     uint32_t num_edges = 0;
-    printf("Number of Edges: %u\n", num_edges);
 
     printf("Edges:\n");
     for (uint32_t i = 0; i < g->vertices; i++) {
@@ -102,9 +98,7 @@ void graph_print(const Graph *g) {
             uint32_t weight = g->weights[i][j];
             if (weight > 0) {
                 printf("%u %u %u\n", i, j, weight);
-                if (!g->directed && i != j) {
-                    num_edges++;
-                }
+                num_edges++;
             }
         }
     }

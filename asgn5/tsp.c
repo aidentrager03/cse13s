@@ -52,20 +52,21 @@ int main(int argc, char *argv[]) {
     }
 
     uint32_t num_vertices;
-    fscanf(input, "%" SCNu32, &num_vertices);
+    fscanf(input, "%" SCNu32 "\n", &num_vertices);
     printf("%" SCNu32, num_vertices);
     Graph *graph = graph_create(num_vertices, directed);
 
     char vertex_name[100];
     for (uint32_t i = 0; i < num_vertices; i++) {
-        fscanf(input, "%s\n", vertex_name);
+        // Use %[^\n] to read the entire line, including spaces.
+        fscanf(input, " %[^\n]\n", vertex_name);
         printf("%s\n", vertex_name);
         graph_add_vertex(graph, vertex_name, i);
     }
 
     uint32_t num_edges;
     fscanf(input, "%" SCNu32, &num_edges);
-    printf("edge: %u", num_edges);
+    printf("edge: %u\n", num_edges);
     for (uint32_t i = 0; i < num_vertices; i++) {
         printf("Vertex %d: %s\n", i, graph_get_vertex_name(graph, i));
     }
@@ -74,17 +75,14 @@ int main(int argc, char *argv[]) {
         uint32_t start, end, weight;
         fscanf(input, "%" SCNu32 " %" SCNu32 " %" SCNu32, &start, &end, &weight);
         printf("Edge: %u -> %u, Weight: %u\n", start, end, weight);
-    }
-
-    for (uint32_t i = 0; i < num_edges; i++) {
-        uint32_t start, end, weight;
-        fscanf(input, "%" SCNu32 " %" SCNu32 " %" SCNu32, &start, &end,
-            &weight); // Use SCNu32 to read uint32_t.
-        printf("%u %u %u", start, end, weight);
         graph_add_edge(graph, start, end, weight);
-        graph_print(graph);
     }
+    printf("here\n\n\n\n\n\n");
 
+    //made it here
+    graph_print(graph);
+
+    printf("here2\n\n\n\n\n\n");
     // Close the input file.
     fclose(input);
 
