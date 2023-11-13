@@ -35,7 +35,7 @@ uint32_t path_distance(const Path *p) {
 
 void path_add(Path *p, uint32_t val, const Graph *g) {
     uint32_t last_vertex;
-    if (stack_pop(p->vertices, &last_vertex)) {
+    if (stack_peek(p->vertices, &last_vertex)) {
         p->total_weight += graph_get_weight(g, last_vertex, val);
     }
     stack_push(p->vertices, val);
