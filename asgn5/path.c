@@ -38,7 +38,6 @@ void path_add(Path *p, uint32_t val, const Graph *g) {
     if (stack_pop(p->vertices, &last_vertex)) {
         p->total_weight += graph_get_weight(g, last_vertex, val);
     }
-    stack_push(p->vertices, last_vertex);
     stack_push(p->vertices, val);
 }
 
