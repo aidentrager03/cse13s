@@ -45,8 +45,9 @@ uint32_t path_remove(Path *p, const Graph *g) {
     uint32_t removed_vertex;
     if (stack_pop(p->vertices, &removed_vertex)) {
         uint32_t peeked;
-        stack_peek(p->vertices, &peeked);
-        p->total_weight -= graph_get_weight(g, peeked, removed_vertex);
+        if (stack_peek(p->vertices, &peeked)) {
+            p->total_weight -= graph_get_weight(g, peeked, removed_vertex);
+        }
     }
     return removed_vertex;
 }
