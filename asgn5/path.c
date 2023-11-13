@@ -44,12 +44,9 @@ void path_add(Path *p, uint32_t val, const Graph *g) {
 uint32_t path_remove(Path *p, const Graph *g) {
     uint32_t removed_vertex;
     if (stack_pop(p->vertices, &removed_vertex)) {
-        uint32_t last_vertex;
-        if (stack_pop(p->vertices, &last_vertex)) {
-            p->total_weight -= graph_get_weight(g, last_vertex, removed_vertex);
-        } else {
-            p->total_weight = 0;
-        }
+        uint32_t peeked;
+        stack_peek(p->vertices, &peeked);
+        p->total_weight -= graph_get_weight(g, peeked, removed_vertex);
     }
     return removed_vertex;
 }
