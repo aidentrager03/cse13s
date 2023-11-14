@@ -1,7 +1,8 @@
+#include "stack.h"
 #include "path.h"
 
 #include "graph.h"
-#include "stack.h"
+
 
 #include <stdlib.h>
 

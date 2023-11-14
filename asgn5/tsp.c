@@ -1,7 +1,7 @@
 #include "graph.h"
 #include "path.h"
 #include "stack.h"
-
+#include <stdbool.h>
 #include <getopt.h>
 #include <inttypes.h>
 #include <stdio.h>
@@ -102,86 +102,66 @@ int main(int argc, char *argv[]) {
     return 0;
 }
 
+
+
+
+void dfs_tsp(const Graph *graph, Path *current_path, Path *best_path, uint32_t *visited) {
+    uint32_t current_vertex = 0;
+
+    // Find the first unvisited vertex
+    while (current_vertex < graph_vertices(graph) && graph_visited(graph, current_vertex)) {
+        current_vertex++;
+        printf("hererer1\n");
+
+    }
+
+    graph_visit_vertex((Graph*)graph, current_vertex);
+
+    bool all_visited = true;
+    for (uint32_t i = 0; i < graph_vertices(graph); i++) {
+        if (!graph_visited(graph, i)) {
+            all_visited = false;
+            break;
+        }
+    }
+
+    if (all_visited) {
+        if (path_distance(current_path) < path_distance(best_path)) {
+            printf("hererer\n");
+            path_print(current_path,stdout, graph);
+            path_copy(best_path, current_path);
+        }
+        return;
+    } else {
+        for (uint32_t i = 0; i < graph_vertices(graph); i++) {
+            if (!graph_visited(graph, i) && graph_get_weight(graph, current_vertex, i) > 0) {
+                path_add(current_path, i, graph);
+                dfs_tsp(graph, current_path, best_path, visited);
+                path_remove(current_path, graph);
+            }
+        }
+    }
+
+    graph_unvisit_vertex((Graph*)graph, current_vertex);
+}
+
+
 Path *solve_tsp(const Graph *graph) {
     uint32_t num_vertices = graph_vertices(graph);
 
-    uint32_t *vertices = (uint32_t *) malloc(num_vertices * sizeof(uint32_t));
-    for (uint32_t i = 0; i < num_vertices; i++) {
-        vertices[i] = i;
-    }
-
-    uint32_t best_weight = UINT32_MAX;
+    uint32_t *visited = (uint32_t *)calloc(num_vertices, sizeof(uint32_t));
+    Path *current_path = path_create(num_vertices);
     Path *best_path = path_create(num_vertices);
 
-    for (uint32_t i = 0; i < num_vertices; i++) {
-        path_add(best_path, vertices[i], graph);
-    }
+    // Start DFS from vertex 0
+    path_add(current_path, 0, graph);
+    dfs_tsp(graph, current_path, best_path, visited);
 
-    do {
-        uint32_t current_weight = 0;
-
-        for (uint32_t i = 0; i < num_vertices; i++) {
-            current_weight
-                += graph_get_weight(graph, vertices[i], vertices[(i + 1) % num_vertices]);
-        }
-
-        // Add the weight of the last edge.
-        // current_weight += graph_get_weight(graph, vertices[num_vertices - 1], vertices[0]);
-
-        // Debug print statements
-        printf("Permutation: ");
-        for (uint32_t i = 0; i < num_vertices; i++) {
-            printf("%u ", vertices[i]);
-        }
-        printf("Weight: %u\n", current_weight);
-
-        if (current_weight < best_weight) {
-            best_weight = current_weight;
-
-            while (path_vertices(best_path) > 0) {
-                path_remove(best_path, graph);
-            }
-
-            for (uint32_t i = 0; i < num_vertices; i++) {
-                path_add(best_path, vertices[i], graph);
-            }
-        }
-    } while (next_permutation(vertices, num_vertices));
-
-    free(vertices);
+    // Free memory
+    free(visited);
+    path_free(&current_path);
 
     return best_path;
 }
 
-int next_permutation(uint32_t *array, uint32_t length) {
-    // Find the largest index k such that a[k] < a[k+1].
-    int k = (int) (length - 2); // Cast to int to address signedness issue.
-    while (k >= 0 && array[k] >= array[k + 1]) {
-        k--;
-    }
 
-    if (k < 0) {
-        return 0;
-    }
-
-    int l = (int) (length - 1);
-    while (array[l] <= array[k]) {
-        l--;
-    }
-
-    uint32_t temp = array[k];
-    array[k] = array[l];
-    array[l] = temp;
-
-    int i = (int) (k + 1);
-    int j = (int) (length - 1);
-    while (i < j) {
-        temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
-        i++;
-        j--;
-    }
-
-    return 1;
-}
