@@ -1,14 +1,16 @@
 #include "graph.h"
 #include "path.h"
 #include "stack.h"
-#include <stdbool.h>
+#include "vertices.h"
+
 #include <getopt.h>
 #include <inttypes.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-Path *solve_tsp(const Graph *graph);
+Path *solve_tsp(Graph *graph);
 
 int next_permutation(uint32_t *array, uint32_t length);
 
@@ -71,9 +73,7 @@ int main(int argc, char *argv[]) {
     }
 
     //made it here
-    graph_print(graph);
 
-    printf("here2\n\n\n\n\n\n");
     // Close the input file.
     fclose(input);
 
@@ -102,20 +102,8 @@ int main(int argc, char *argv[]) {
     return 0;
 }
 
-
-
-
-void dfs_tsp(const Graph *graph, Path *current_path, Path *best_path, uint32_t *visited) {
-    uint32_t current_vertex = 0;
-
-    // Find the first unvisited vertex
-    while (current_vertex < graph_vertices(graph) && graph_visited(graph, current_vertex)) {
-        current_vertex++;
-        printf("hererer1\n");
-
-    }
-
-    graph_visit_vertex((Graph*)graph, current_vertex);
+void dfs_tsp(uint32_t current_vertex, Graph *graph, Path *current_path, Path *best_path) {
+    graph_visit_vertex(graph, current_vertex);
 
     bool all_visited = true;
     for (uint32_t i = 0; i < graph_vertices(graph); i++) {
@@ -126,42 +114,38 @@ void dfs_tsp(const Graph *graph, Path *current_path, Path *best_path, uint32_t *
     }
 
     if (all_visited) {
-        if (path_distance(current_path) < path_distance(best_path)) {
-            printf("hererer\n");
-            path_print(current_path,stdout, graph);
-            path_copy(best_path, current_path);
+        if (graph_get_weight(graph, current_vertex, START_VERTEX)) {
+            path_add(current_path, START_VERTEX, graph);
+            if (path_distance(current_path) < path_distance(best_path)
+                || 0 == path_distance(best_path)) {
+                path_copy(best_path, current_path);
+            }
+            path_remove(current_path, graph);
         }
-        return;
+
     } else {
         for (uint32_t i = 0; i < graph_vertices(graph); i++) {
             if (!graph_visited(graph, i) && graph_get_weight(graph, current_vertex, i) > 0) {
                 path_add(current_path, i, graph);
-                dfs_tsp(graph, current_path, best_path, visited);
+                dfs_tsp(i, graph, current_path, best_path);
                 path_remove(current_path, graph);
             }
         }
     }
 
-    graph_unvisit_vertex((Graph*)graph, current_vertex);
+    graph_unvisit_vertex(graph, current_vertex);
 }
 
-
-Path *solve_tsp(const Graph *graph) {
+Path *solve_tsp(Graph *graph) {
     uint32_t num_vertices = graph_vertices(graph);
-
-    uint32_t *visited = (uint32_t *)calloc(num_vertices, sizeof(uint32_t));
-    Path *current_path = path_create(num_vertices);
-    Path *best_path = path_create(num_vertices);
+    Path *current_path = path_create(num_vertices + 1);
+    Path *best_path = path_create(num_vertices + 1);
 
     // Start DFS from vertex 0
     path_add(current_path, 0, graph);
-    dfs_tsp(graph, current_path, best_path, visited);
-
-    // Free memory
-    free(visited);
+    dfs_tsp(0, graph, current_path, best_path);
+    //best path has a distance of 0
     path_free(&current_path);
 
     return best_path;
 }
-
-

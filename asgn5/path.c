@@ -1,8 +1,7 @@
-#include "stack.h"
 #include "path.h"
 
 #include "graph.h"
-
+#include "stack.h"
 
 #include <stdlib.h>
 
@@ -61,14 +60,5 @@ void path_copy(Path *dst, const Path *src) {
 }
 
 void path_print(const Path *p, FILE *f, const Graph *g) {
-    for (uint32_t i = 0; i < stack_size(p->vertices); i++) {
-        uint32_t path_item;
-        if (stack_peek(p->vertices, &path_item)) {
-            fprintf(f, "%s", graph_get_vertex_name(g, path_item));
-            if (i < stack_size(p->vertices) - 1) {
-                fprintf(f, " -> ");
-            }
-        }
-    }
-    fprintf(f, "\n"); // Add a newline at the end of the path.
+    stack_print(p->vertices, f, graph_get_names(g));
 }
