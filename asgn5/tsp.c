@@ -84,15 +84,23 @@ int main(int argc, char *argv[]) {
     if (output_file != NULL) {
         FILE *output = fopen(output_file, "w");
         if (output != NULL) {
-            fprintf(output, "Alissa starts at:\n");
-            path_print(tsp_path, output, graph);
-            fprintf(output, "Total Distance: %u\n", path_distance(tsp_path));
-            fclose(output);
+            if (path_distance(tsp_path) == 0) {
+                fprintf(output, "No path found! Alissa is lost!\n");
+            } else {
+                fprintf(output, "Alissa starts at:\n");
+                path_print(tsp_path, output, graph);
+                fprintf(output, "Total Distance: %u\n", path_distance(tsp_path));
+                fclose(output);
+            }
         }
     } else {
-        printf("Alissa starts at:\n");
-        path_print(tsp_path, stdout, graph);
-        printf("Total Distance: %u\n", path_distance(tsp_path));
+        if (path_distance(tsp_path) == 0) {
+            printf("No path found! Alissa is lost!\n");
+        } else {
+            printf("Alissa starts at:\n");
+            path_print(tsp_path, stdout, graph);
+            printf("Total Distance: %u\n", path_distance(tsp_path));
+        }
     }
 
     // Free memory.
