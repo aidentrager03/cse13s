@@ -1,5 +1,6 @@
 #define MAX_COLORS 256
 #include "bmp.h"
+
 #include "io.h"
 
 #include <assert.h>
@@ -30,8 +31,7 @@ uint32_t round_up(uint32_t x, uint32_t n) {
 BMP *bmp_create(FILE *fin) {
     BMP *pbmp = (BMP *) calloc(1, sizeof(BMP));
     if (pbmp == NULL) {
-        /* report fatal error */
-        //exit(EXIT_FAILURE); maybe?
+        exit(EXIT_FAILURE);
     }
 
     /* read data from the input file */

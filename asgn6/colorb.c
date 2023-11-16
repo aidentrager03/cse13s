@@ -1,11 +1,13 @@
+#include "bmp.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "bmp.h"
 
 int main(int argc, char *argv[]) {
-    if (strcmp(argv[1], "-h")==0){
+    if (strcmp(argv[1], "-h") == 0) {
         fprintf(stdout, "Usage: %s -i infile -o outfile\ncolorb -h\n", argv[0]);
+        return EXIT_SUCCESS;
     }
     if (argc != 5 || strcmp(argv[1], "-i") != 0 || strcmp(argv[3], "-o") != 0) {
         fprintf(stderr, "Usage: %s -i infile -o outfile\ncolorb -h\n", argv[0]);
