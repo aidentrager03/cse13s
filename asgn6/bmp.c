@@ -1,7 +1,5 @@
 #define MAX_COLORS 256
 #include "bmp.h"
-
-#include "io.c"
 #include "io.h"
 
 #include <assert.h>

@@ -8,7 +8,10 @@ OBJS = io.o bmp.o colorb.o iotest.o
 
 all: $(EXECBIN)
     
-$(EXECBIN): $(OBJS)
+colorb: colorb.o bmp.o io.o
+	$(CC) $(LDFLAGS) -o $@ $^
+
+iotest: iotest.o io.o
 	$(CC) $(LDFLAGS) -o $@ $^
 
 %.o: %.c
