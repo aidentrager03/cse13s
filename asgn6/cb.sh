@@ -20,6 +20,6 @@
 # output filename.
 
 for x in bmps/*-orig.bmp; do
-  ./colorb -i $x -o ${x%-orig\.bmp}-colorb.bmp
+  valgrind ./colorb -i $x -o ${x%-orig\.bmp}-colorb.bmp
 done
 

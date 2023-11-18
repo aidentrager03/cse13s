@@ -103,8 +103,8 @@ BMP *bmp_create(FILE *fin) {
 
     uint32_t rounded_width = round_up(pbmp->width, 4);
 
-    pbmp->a = (uint8_t **) calloc(rounded_width, sizeof(pbmp->a[0]));
-    for (uint32_t x = 0; x < rounded_width; ++x) {
+    pbmp->a = (uint8_t **) calloc(pbmp->width, sizeof(pbmp->a[0]));
+    for (uint32_t x = 0; x < pbmp->width; ++x) {
         pbmp->a[x] = (uint8_t *) calloc(pbmp->height, sizeof(pbmp->a[x][0]));
     }
 
