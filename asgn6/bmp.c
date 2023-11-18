@@ -64,11 +64,31 @@ BMP *bmp_create(FILE *fin) {
     read_uint32(fin, &place_holder1);
 
     /* verify values */
-    assert(type1 == 'B');
-    assert(type2 == 'M');
-    assert(bitmap_header_size == 40);
-    assert(bits_per_pixel == 8);
-    assert(compression == 0);
+
+    if (!(type1 == 'B')) {
+        free(pbmp);
+        return NULL;
+    }
+
+    if (!(type2 == 'M')) {
+        free(pbmp);
+        return NULL;
+    }
+
+    if (!(bitmap_header_size == 40)) {
+        free(pbmp);
+        return NULL;
+    }
+
+    if (!(bits_per_pixel == 8)) {
+        free(pbmp);
+        return NULL;
+    }
+
+    if (!(compression == 0)) {
+        free(pbmp);
+        return NULL;
+    }
 
     uint32_t num_colors = sizeof(pbmp->palette) / sizeof(pbmp->palette[0]);
     if (num_colors == 0)
@@ -145,7 +165,6 @@ void bmp_write(const BMP *pbmp, FILE *fout) {
             write_uint8(fout, pbmp->a[x][y]);
         }
 
-        /* if needed, write extra pixels to make a multiple of 4 pixels per row */
         for (uint32_t x = pbmp->width; x < rounded_width; ++x) {
             write_uint8(fout, 0);
         }

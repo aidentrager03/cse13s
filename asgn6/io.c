@@ -3,7 +3,7 @@
 void read_uint8(FILE *fin, uint8_t *px) {
     int result = fgetc(fin);
     if (result == EOF) {
-        /* report a fatal error */
+        //report a fatal error
         *px = (uint8_t) result;
     } else {
         *px = (uint8_t) result;
@@ -27,7 +27,7 @@ void read_uint32(FILE *fin, uint32_t *px) {
 void write_uint8(FILE *fout, uint8_t x) {
     int result = fputc(x, fout);
     if (result == EOF) {
-        /* report a fatal error */
+        //report a fatal error
     }
 }
 

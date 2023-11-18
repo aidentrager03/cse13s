@@ -37,6 +37,7 @@ int main(int argc, char *argv[]) {
     if (fout == NULL) {
         perror("Error opening output file");
         bmp_free(&original_bmp);
+        fclose(fout);
         return EXIT_FAILURE;
     }
 
