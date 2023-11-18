@@ -3,19 +3,30 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include <unistd.h>
 int main(int argc, char *argv[]) {
-    if (strcmp(argv[1], "-h") == 0) {
-        fprintf(stdout, "Usage: %s -i infile -o outfile\ncolorb -h\n", argv[0]);
-        return EXIT_SUCCESS;
+    int opt;
+    char *input_file = NULL;
+    char *output_file = NULL;
+
+    while ((opt = getopt(argc, argv, "hi:o:")) != -1) {
+        switch (opt) {
+        case 'h':
+            fprintf(stdout, "Usage: %s -i infile -o outfile\ncolorb -h\n", argv[0]);
+            return EXIT_SUCCESS;
+        case 'i': input_file = optarg; break;
+        case 'o': output_file = optarg; break;
+        default:
+            fprintf(stderr, "Usage: %s -i infile -o outfile\ncolorb -h\n", argv[0]);
+            return EXIT_FAILURE;
+        }
     }
-    if (argc != 5 || strcmp(argv[1], "-i") != 0 || strcmp(argv[3], "-o") != 0) {
+
+    // Check if both input and output files are provided
+    if (input_file == NULL || output_file == NULL) {
         fprintf(stderr, "Usage: %s -i infile -o outfile\ncolorb -h\n", argv[0]);
         return EXIT_FAILURE;
     }
-
-    char *input_file = argv[2];
-    char *output_file = argv[4];
 
     FILE *fin = fopen(input_file, "rb");
     if (fin == NULL) {
