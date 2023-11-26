@@ -30,6 +30,8 @@ void print_hex_ascii_line(const char *buffer, size_t size, size_t offset) {
     for (size_t i = 0; i < size; ++i) {
         if (buffer[i] >= 32 && buffer[i] <= 126)
             putchar(buffer[i]);
+        else
+            putchar('.');
     }
 
     printf("\n");
