@@ -38,7 +38,6 @@ void print_hex_ascii_file(const char *filename) {
     if (filename) {
         fd = open(filename, O_RDONLY);
         if (fd == -1) {
-            perror("Error opening file");
             exit(EXIT_FAILURE);
         }
     } else {
@@ -66,7 +65,6 @@ int main(int argc, char *argv[]) {
     } else if (argc == 1) {
         print_hex_ascii_file(NULL); // Read from stdin
     } else {
-        fprintf(stderr, "Usage: %s [filename]\n", argv[0]);
         exit(EXIT_FAILURE);
     }
 
