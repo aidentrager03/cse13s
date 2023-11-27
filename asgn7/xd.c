@@ -4,6 +4,7 @@
 #include <unistd.h>
 
 #define BUFFER_SIZE 16
+#define DELAY_MICROSECONDS 10000 // Adjust the delay as needed
 
 void print_hex_ascii_line(const char *buffer, size_t size, size_t offset) {
     printf("%08zx: ", offset);
@@ -52,6 +53,9 @@ void print_hex_ascii_file(const char *filename) {
     while ((bytesRead = read(fd, buffer, BUFFER_SIZE)) > 0) {
         print_hex_ascii_line(buffer, (size_t) bytesRead, offset);
         offset += bytesRead > 0 ? (size_t) bytesRead : 0;
+
+        // Introduce a delay to simulate throttled input
+        usleep(DELAY_MICROSECONDS);
     }
 
     if (filename) {
