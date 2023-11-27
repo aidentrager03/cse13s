@@ -34,7 +34,17 @@ void print_hex_ascii_line(const char *buffer, size_t size, size_t offset) {
 }
 
 void print_hex_ascii_file(const char *filename) {
-    int fd = open(filename, O_RDONLY);
+    int fd;
+    if (filename) {
+        fd = open(filename, O_RDONLY);
+        if (fd == -1) {
+            perror("Error opening file");
+            exit(EXIT_FAILURE);
+        }
+    } else {
+        // Read from stdin
+        fd = STDIN_FILENO;
+    }
 
     char buffer[BUFFER_SIZE];
     ssize_t bytesRead;
@@ -45,11 +55,20 @@ void print_hex_ascii_file(const char *filename) {
         offset += bytesRead > 0 ? (size_t) bytesRead : 0;
     }
 
-    close(fd);
+    if (filename) {
+        close(fd);
+    }
 }
 
 int main(int argc, char *argv[]) {
-    print_hex_ascii_file(argv[1]);
+    if (argc == 2) {
+        print_hex_ascii_file(argv[1]);
+    } else if (argc == 1) {
+        print_hex_ascii_file(NULL); // Read from stdin
+    } else {
+        fprintf(stderr, "Usage: %s [filename]\n", argv[0]);
+        exit(EXIT_FAILURE);
+    }
 
     return 0;
 }
