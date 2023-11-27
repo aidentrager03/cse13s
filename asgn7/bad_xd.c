@@ -23,7 +23,8 @@ void p(const char *b, size_t s, size_t o) {
 
 void f(const char *f) {
     int d;
-    if ((d = open(f, 00)) == -1) exit(1);
+    if ((d = open(f, 00)) == -1)
+        exit(1);
 
     char b[B];
     ssize_t r;
@@ -34,7 +35,8 @@ void f(const char *f) {
         o += r > 0 ? (size_t) r : 0;
     }
 
-    if (f) close(d);
+    if (f)
+        close(d);
 }
 
 int main(int c, char *v[]) {
