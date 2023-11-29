@@ -6,6 +6,7 @@
 #define B 16
 
 void p(const char *b, size_t s) {
+    printf("%08zx: ", s);
     for (size_t i = 0; i < B; ++i)
         printf(i < s ? "%02x%c" : "  ", (unsigned char) b[i], i % 2 == 1 ? ' ' : ' ');
     printf(" ");
@@ -34,8 +35,9 @@ void f(const char *f) {
             if (r1 == 0)
                 break;
         }
-        if (r > 0)
+        if (r > 0) {
             p(b, (size_t) r);
+        }
     }
 
     if (f)
@@ -43,9 +45,10 @@ void f(const char *f) {
 }
 
 int main(int c, char *v[]) {
-    if (c == 2 || c == 1)
+    if (c == 2 || c == 1) {
         f(c == 1 ? NULL : v[1]);
-    else
+    } else {
         exit(EXIT_FAILURE);
+    }
     return 0;
 }
