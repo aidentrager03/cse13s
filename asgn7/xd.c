@@ -41,17 +41,24 @@ void print_hex_ascii_file(const char *filename) {
             exit(EXIT_FAILURE);
         }
     } else {
-        // Read from stdin
         fd = STDIN_FILENO;
     }
 
     char buffer[BUFFER_SIZE];
-    ssize_t bytesRead;
     size_t offset = 0;
+    ssize_t buffer_read1 = 1;
 
-    while ((bytesRead = read(fd, buffer, BUFFER_SIZE)) > 0) {
-        print_hex_ascii_line(buffer, (size_t) bytesRead, offset);
-        offset += bytesRead > 0 ? (size_t) bytesRead : 0;
+    while (buffer_read1 > 0) {
+        ssize_t buffer_read = 0;
+        while (buffer_read != BUFFER_SIZE) {
+            buffer_read1 = read(fd, &buffer[buffer_read], (size_t) (BUFFER_SIZE - buffer_read));
+            buffer_read += buffer_read1;
+            if (buffer_read1 == 0) {
+                break;
+            }
+        }
+        print_hex_ascii_line(buffer, (size_t) buffer_read, offset);
+        offset += buffer_read > 0 ? (size_t) buffer_read : 0;
     }
 
     if (filename) {
