@@ -57,8 +57,10 @@ void print_hex_ascii_file(const char *filename) {
                 break;
             }
         }
-        print_hex_ascii_line(buffer, (size_t) buffer_read, offset);
-        offset += buffer_read > 0 ? (size_t) buffer_read : 0;
+        if (buffer_read1 > 0) {
+            print_hex_ascii_line(buffer, (size_t) buffer_read, offset);
+            offset += buffer_read > 0 ? (size_t) buffer_read : 0;
+        }
     }
 
     if (filename) {
