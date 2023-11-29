@@ -8,24 +8,41 @@
 void p(const char *b, size_t s, size_t o) {
     printf("%08zx: ", o);
 
-    for (size_t i = 0; i < s; ++i)
-        printf("%02x%c", (unsigned char) b[i], i % 2 == 1 ? ' ' : ' ');
+    for (size_t i = 0; i < s; ++i) {
+        printf("%02x", (unsigned char) b[i]);
+        if (i % 2 == 1)
+            printf(" ");
+    }
 
-    for (size_t i = s; i < B; ++i)
-        printf(i % 2 == 1 ? "  " : " ");
+    if (s < B) {
+        for (size_t i = s; i < B; ++i) {
+            printf("  ");
+            if (i % 2 == 1)
+                printf(" ");
+        }
+    }
 
     printf(" ");
-
-    for (size_t i = 0; i < s; ++i)
-        putchar((b[i] >= 32 && b[i] <= 126) ? b[i] : '.');
+    for (size_t i = 0; i < s; ++i) {
+        if (b[i] >= 32 && b[i] <= 126)
+            putchar(b[i]);
+        else
+            putchar('.');
+    }
 
     printf("\n");
 }
 
 void h(const char *f) {
-    int d = f ? open(f, 00) : 0;
-    if (d == -1)
-        exit(1);
+    int fd;
+    if (f) {
+        fd = open(f, 00);
+        if (fd == -1) {
+            exit(1);
+        }
+    } else {
+        fd = 0;
+    }
 
     char U[B];
     size_t O = 0;
@@ -34,10 +51,11 @@ void h(const char *f) {
     while (R > 0) {
         ssize_t r = 0;
         while (r != B) {
-            R = read(d, &U[r], (size_t) (B - r));
+            R = read(fd, &U[r], (size_t) (B - r));
             r += R;
-            if (R == 0)
+            if (R == 0) {
                 break;
+            }
         }
         if (r > 0) {
             p(U, (size_t) r, O);
@@ -45,11 +63,19 @@ void h(const char *f) {
         }
     }
 
-    if (f)
-        close(d);
+    if (f) {
+        close(fd);
+    }
 }
 
 int main(int argc, char *argv[]) {
-    (argc == 2) ? h(argv[1]) : ((argc == 1) ? h(NULL) : exit(1));
+    if (argc == 2) {
+        h(argv[1]);
+    } else if (argc == 1) {
+        h(NULL);
+    } else {
+        exit(1);
+    }
+
     return 0;
 }
