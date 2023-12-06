@@ -1,4 +1,3 @@
-// pq.c
 
 #include "pq.h"
 

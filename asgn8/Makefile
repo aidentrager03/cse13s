@@ -1,16 +1,29 @@
 CC = clang
 CFLAGS = -Werror -Wall -Wextra -Wconversion -Wdouble-promotion -Wstrict-prototypes -pedantic -gdwarf-4
-EXECBIN = huff dehuff pqtest modetest bwtest brtest
-OBJS = bitreader.o bitwriter.o node.o pc.o pqtest.o nodetest.o bwtest.o brtest.o
+LDFLAGS = -lm
+EXECBIN = huff dehuff pqtest nodetest bwtest brtest
+OBJS = bitreader.o bitwriter.o node.o pq.o pqtest.o nodetest.o bwtest.o brtest.o huff.o dehuff.o
 
 .PHONY: all clean format
 
 all: $(EXECBIN)
 
-xd: xd.o
+huff: huff.o bitreader.o bitwriter.o node.o pq.o
 	$(CC) $(LDFLAGS) -o $@ $^
 
-bad_xd: bad_xd.o
+dehuff: dehuff.o bitreader.o bitwriter.o node.o pq.o
+	$(CC) $(LDFLAGS) -o $@ $^
+
+pqtest: pqtest.o bitreader.o bitwriter.o node.o pq.o
+	$(CC) $(LDFLAGS) -o $@ $^
+
+nodetest: nodetest.o bitreader.o bitwriter.o node.o pq.o
+	$(CC) $(LDFLAGS) -o $@ $^
+
+bwtest: bwtest.o bitreader.o bitwriter.o node.o pq.o
+	$(CC) $(LDFLAGS) -o $@ $^
+
+brtest: brtest.o bitreader.o bitwriter.o node.o pq.o
 	$(CC) $(LDFLAGS) -o $@ $^
 
 %.o: %.c
