@@ -4,13 +4,14 @@
 #include "pq.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 
-void huff_compress_file(BitWriter *outbuf, FILE *fin, uint32_t filesize, uint16_t num_leaves,
-    Node *code_tree, Code *code_table);
-Node *create_tree(uint32_t *histogram, uint16_t *num_leaves);
-uint32_t fill_histogram(FILE *fin, uint32_t *histogram);
+typedef struct Code {
+    uint64_t code;
+    uint8_t code_length;
+} Code;
 
-uint32_t fill_histogram(FILE *fin, uint32_t *histogram) {
+void fill_histogram(FILE *fin, uint32_t *histogram) {
     for (int i = 0; i < 256; ++i) {
         histogram[i] = 0;
     }
@@ -30,7 +31,58 @@ uint32_t fill_histogram(FILE *fin, uint32_t *histogram) {
     histogram[0x00]++;
     histogram[0xff]++;
 
-    return filesize;
+    fseek(fin, 0, SEEK_SET); // Rewind the file
+}
+
+Node *create_tree(uint32_t *histogram, uint16_t *num_leaves) {
+    PriorityQueue *priority_queue = pq_create();
+
+    for (uint16_t i = 0; i < 256; ++i) {
+        if (histogram[i] > 0) {
+            Node *new_node = node_create((uint8_t) i, histogram[i]);
+            enqueue(priority_queue, new_node);
+            (*num_leaves)++;
+        }
+    }
+
+    while (!pq_is_empty(priority_queue) && !pq_size_is_1(priority_queue)) {
+        Node *left = dequeue(priority_queue);
+        Node *right = dequeue(priority_queue);
+
+        Node *new_node = node_create(0, left->weight + right->weight);
+        new_node->left = left;
+        new_node->right = right;
+
+        enqueue(priority_queue, new_node);
+    }
+
+    Node *huffman_tree = dequeue(priority_queue);
+
+    pq_free(&priority_queue);
+
+    return huffman_tree;
+}
+
+void fill_code_table(Code *code_table, Node *node, uint64_t code, uint8_t code_length) {
+    if (node->left == NULL) {
+        code_table[node->symbol].code = code;
+        code_table[node->symbol].code_length = code_length;
+    } else {
+        fill_code_table(code_table, node->left, code, code_length + 1);
+        code |= (uint64_t) 1 << code_length;
+        fill_code_table(code_table, node->right, code, code_length + 1);
+    }
+}
+
+void huff_write_tree(BitWriter *outbuf, Node *node) {
+    if (node->left == NULL) {
+        bit_write_bit(outbuf, 1);
+        bit_write_uint8(outbuf, node->symbol);
+    } else {
+        huff_write_tree(outbuf, node->left);
+        huff_write_tree(outbuf, node->right);
+        bit_write_bit(outbuf, 0);
+    }
 }
 
 void huff_compress_file(BitWriter *outbuf, FILE *fin, uint32_t filesize, uint16_t num_leaves,
@@ -58,31 +110,7 @@ void huff_compress_file(BitWriter *outbuf, FILE *fin, uint32_t filesize, uint16_
     }
 }
 
-Node *create_tree(uint32_t *histogram, uint16_t *num_leaves) {
-    PriorityQueue *priority_queue = pq_create();
+int main() {
 
-    for (uint16_t i = 0; i < 256; ++i) {
-        if (histogram[i] > 0) {
-            Node *new_node = node_create((uint8_t) i, histogram[i]);
-            enqueue(priority_queue, new_node);
-            (*num_leaves)++;
-        }
-    }
-
-    while (!pq_size_is_1(priority_queue)) {
-        Node *left = dequeue(priority_queue);
-        Node *right = dequeue(priority_queue);
-
-        Node *new_node = node_create(0, left->weight + right->weight);
-        new_node->left = left;
-        new_node->right = right;
-
-        enqueue(priority_queue, new_node);
-    }
-
-    Node *huffman_tree = dequeue(priority_queue);
-
-    pq_free(&priority_queue);
-
-    return huffman_tree;
+    return 0;
 }

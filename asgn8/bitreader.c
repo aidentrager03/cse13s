@@ -40,8 +40,7 @@ uint8_t bit_read_bit(BitReader *buf) {
     if (buf->bit_position > 7) {
         int read_byte = fgetc(buf->underlying_stream);
         if (read_byte == EOF) {
-            return NULL;
-            //exit(EXIT_FAILURE);
+            exit(EXIT_FAILURE);
         }
         buf->byte = (uint8_t) read_byte;
         buf->bit_position = 0;
@@ -72,7 +71,7 @@ uint16_t bit_read_uint16(BitReader *buf) {
 uint32_t bit_read_uint32(BitReader *buf) {
     uint32_t word = 0x00000000;
     for (int i = 0; i < 32; ++i) {
-        word |= (bit_read_bit(buf) << i);
+        word |= ((uint32_t) bit_read_bit(buf) << i);
     }
     return word;
 }
