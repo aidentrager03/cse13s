@@ -11,8 +11,8 @@
 * -----------------------
 */
 
-#include <stdbool.h>
 #include <inttypes.h>
+#include <stdbool.h>
 
 typedef struct BitReader BitReader;
 

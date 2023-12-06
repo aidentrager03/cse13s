@@ -22,9 +22,9 @@
 * exists.  If verbose is true, then the dequeued weight is printed.
 */
 #define D(N, W)                                                                                    \
-    N = dequeue(q);                                                                      \
+    N = dequeue(q);                                                                                \
     if (verbose)                                                                                   \
-        printf("dequeue %" PRIu32 "\n", (N)->weight);                                                       \
+        printf("dequeue %" PRIu32 "\n", (N)->weight);                                              \
     assert(fabs((N)->weight - (W)) < EPSILON)
 
 int main(int argc, char **argv) {

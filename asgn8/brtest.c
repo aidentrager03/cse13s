@@ -13,11 +13,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define V1(BIT) assert(bit_read_bit(buf) == (BIT))
-#define V8(BYTE) assert(bit_read_uint8(buf) == (BYTE))
+#define V1(BIT)   assert(bit_read_bit(buf) == (BIT))
+#define V8(BYTE)  assert(bit_read_uint8(buf) == (BYTE))
 #define V16(WORD) assert(bit_read_uint16(buf) == (WORD))
 #define V32(WORD) assert(bit_read_uint32(buf) == (WORD))
-
 
 int main(void) {
     /*

@@ -1,7 +1,7 @@
 CC = clang
 CFLAGS = -Werror -Wall -Wextra -Wconversion -Wdouble-promotion -Wstrict-prototypes -pedantic -gdwarf-4
-EXECBIN = xd bad_xd
-OBJS = xd.o bad_xd.o
+EXECBIN = huff dehuff
+OBJS = bitreader.o bitwriter.o node.o pc.o
 
 .PHONY: all clean format
 
