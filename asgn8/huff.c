@@ -2,16 +2,17 @@
 #include "bitwriter.h"
 #include "node.h"
 #include "pq.h"
-
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
 
 typedef struct Code {
     uint64_t code;
     uint8_t code_length;
 } Code;
 
-void fill_histogram(FILE *fin, uint32_t *histogram) {
+uint32_t fill_histogram(FILE *fin, uint32_t *histogram) {
     for (int i = 0; i < 256; ++i) {
         histogram[i] = 0;
     }
@@ -32,6 +33,7 @@ void fill_histogram(FILE *fin, uint32_t *histogram) {
     histogram[0xff]++;
 
     fseek(fin, 0, SEEK_SET); // Rewind the file
+    return histogram;
 }
 
 Node *create_tree(uint32_t *histogram, uint16_t *num_leaves) {
@@ -110,7 +112,78 @@ void huff_compress_file(BitWriter *outbuf, FILE *fin, uint32_t filesize, uint16_
     }
 }
 
-int main() {
+int main(int argc, char *argv[]) {
+    char *input_filename = NULL;
+    char *output_filename = NULL;
+
+    // Parse command line options
+    for (int i = 1; i < argc; i++) {
+        if (strcmp(argv[i], "-i") == 0 && i + 1 < argc) {
+            input_filename = argv[i + 1];
+            i++;
+        } else if (strcmp(argv[i], "-o") == 0 && i + 1 < argc) {
+            output_filename = argv[i + 1];
+            i++;
+        } else if (strcmp(argv[i], "-h") == 0) {
+            printf("Help message: Your help message goes here.\n");
+            return 0;
+        }
+    }
+
+    // Check if required options are provided
+    if (input_filename == NULL || output_filename == NULL) {
+        fprintf(stderr, "Error: Input and output filenames are required.\n");
+        return 1;
+    }
+
+    // Open input file
+    FILE *input_file = fopen(input_filename, "rb");
+    if (input_file == NULL) {
+        perror("Error opening input file");
+        return 1;
+    }
+
+    // Create a histogram
+    uint32_t histogram[256];
+    uint32_t filesize = fill_histogram(input_file, histogram);
+    fclose(input_file);
+
+    // Ensure at least two values in the histogram are non-zero
+    histogram[0x00]++;
+    histogram[0xff]++;
+
+    // Create a tree
+    uint16_t num_leaves = 0;
+    Node *code_tree = create_tree(histogram, &num_leaves);
+
+    // Create a code table
+    Code code_table[256];
+    fill_code_table(code_table, code_tree, 0, 0);
+
+    // Rewind the input file
+    input_file = fopen(input_filename, "rb");
+    if (input_file == NULL) {
+        perror("Error rewinding input file");
+        return 1;
+    }
+
+    // Open output file
+    BitWriter *output_buffer = bit_write_open(output_filename);
+    if (output_buffer == NULL) {
+        perror("Error opening output file");
+        fclose(input_file);
+        return 1;
+    }
+
+    // Compress the file
+    huff_compress_file(output_buffer, input_file, filesize, num_leaves, code_tree, code_table);
+
+    // Close files and free resources
+    fclose(input_file);
+    bit_write_close(&output_buffer);
+
+    // Free the tree
+    node_free(code_tree);
 
     return 0;
 }
