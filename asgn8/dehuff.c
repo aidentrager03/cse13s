@@ -25,7 +25,9 @@ int main(int argc, char *argv[]) {
             output_filename = argv[i + 1];
             i++;
         } else if (strcmp(argv[i], "-h") == 0) {
-            printf("Usage: dehuff -i infile -o outfile\n       dehuff -h\n");
+            printf(
+                "Usage: dehuff -i infile -o outfile\n       dehuff -v -i infile -o outfile\n       "
+                "dehuff -h\n");
             return 0;
         }
     }
@@ -107,4 +109,6 @@ void dehuff_decompress_file(FILE *fout, BitReader *inbuf) {
             }
         }
     }
+
+    node_free(&code_tree);
 }
