@@ -2,10 +2,10 @@
 #include "bitwriter.h"
 #include "node.h"
 #include "pq.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 
 typedef struct Code {
     uint64_t code;
@@ -29,11 +29,14 @@ uint32_t fill_histogram(FILE *fin, uint32_t *histogram) {
         filesize++;
     }
 
+    // Ensure at least two values in the histogram array are non-zero
     histogram[0x00]++;
     histogram[0xff]++;
 
-    fseek(fin, 0, SEEK_SET); // Rewind the file
-    return histogram;
+    // Rewind the file
+    fseek(fin, 0, SEEK_SET);
+
+    return filesize;
 }
 
 Node *create_tree(uint32_t *histogram, uint16_t *num_leaves) {
@@ -183,7 +186,7 @@ int main(int argc, char *argv[]) {
     bit_write_close(&output_buffer);
 
     // Free the tree
-    node_free(code_tree);
+    node_free(&code_tree);
 
     return 0;
 }
