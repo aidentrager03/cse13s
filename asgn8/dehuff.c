@@ -11,14 +11,12 @@ typedef struct Code {
     uint8_t code_length;
 } Code;
 
-// Function declarations
 void dehuff_decompress_file(FILE *fout, BitReader *inbuf);
 
 int main(int argc, char *argv[]) {
     char *input_filename = NULL;
     char *output_filename = NULL;
 
-    // Parse command line options
     for (int i = 1; i < argc; i++) {
         if (strcmp(argv[i], "-i") == 0 && i + 1 < argc) {
             input_filename = argv[i + 1];
@@ -32,13 +30,11 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    // Check if required options are provided
     if (input_filename == NULL || output_filename == NULL) {
         fprintf(stderr, "Error: Input and output filenames are required.\n");
         return 1;
     }
 
-    // Open input file
     BitReader *input_buffer = bit_read_open(input_filename);
     if (input_buffer == NULL) {
         perror("Error opening input file");
@@ -53,10 +49,8 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    // Decompress the file
     dehuff_decompress_file(output_file, input_buffer);
 
-    // Close files and free resources
     fclose(output_file);
     bit_read_close(&input_buffer);
 
@@ -64,24 +58,19 @@ int main(int argc, char *argv[]) {
 }
 
 void dehuff_decompress_file(FILE *fout, BitReader *inbuf) {
-    // Reading header information
     uint8_t type1 = bit_read_uint8(inbuf);
     uint8_t type2 = bit_read_uint8(inbuf);
     uint32_t filesize = bit_read_uint32(inbuf);
     uint16_t num_leaves = bit_read_uint16(inbuf);
 
-    // Ensure the file has the correct header
     assert(type1 == 'H');
     assert(type2 == 'C');
 
-    // Calculate the number of nodes in the tree
     uint16_t num_nodes = 2 * num_leaves - 1;
 
-    // Initialize a stack for building the tree
     Node *stack[64];
     int top = -1;
 
-    // Build the Huffman tree
     for (uint16_t i = 0; i < num_nodes; ++i) {
         int bit = bit_read_bit(inbuf);
         Node *node;
@@ -98,14 +87,11 @@ void dehuff_decompress_file(FILE *fout, BitReader *inbuf) {
         stack[++top] = node;
     }
 
-    // The root of the Huffman tree
     Node *code_tree = stack[top];
 
-    // Decompress the file using the Huffman tree
     for (uint32_t i = 0; i < filesize; ++i) {
         Node *node = code_tree;
 
-        // Traverse the tree until a leaf is reached
         while (1) {
             int bit = bit_read_bit(inbuf);
 
@@ -116,7 +102,6 @@ void dehuff_decompress_file(FILE *fout, BitReader *inbuf) {
             }
 
             if (node->left == NULL && node->right == NULL) {
-                // Reached a leaf, write the symbol to the output file
                 fwrite(&(node->symbol), sizeof(uint8_t), 1, fout);
                 break;
             }

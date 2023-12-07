@@ -119,7 +119,6 @@ int main(int argc, char *argv[]) {
     char *input_filename = NULL;
     char *output_filename = NULL;
 
-    // Parse command line options
     for (int i = 1; i < argc; i++) {
         if (strcmp(argv[i], "-i") == 0 && i + 1 < argc) {
             input_filename = argv[i + 1];
@@ -140,27 +139,22 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    // Open input file
     FILE *input_file = fopen(input_filename, "rb");
     if (input_file == NULL) {
         perror("Error opening input file");
         return 1;
     }
 
-    // Create a histogram
     uint32_t histogram[256];
     uint32_t filesize = fill_histogram(input_file, histogram);
     fclose(input_file);
 
-    // Ensure at least two values in the histogram are non-zero
     histogram[0x00]++;
     histogram[0xff]++;
 
-    // Create a tree
     uint16_t num_leaves = 0;
     Node *code_tree = create_tree(histogram, &num_leaves);
 
-    // Create a code table
     Code code_table[256];
     fill_code_table(code_table, code_tree, 0, 0);
 

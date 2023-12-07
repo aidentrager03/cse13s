@@ -21,6 +21,8 @@ Node *node_create(uint8_t symbol, uint32_t weight) {
 
 void node_free(Node **pnode) {
     if (*pnode != NULL) {
+        node_free(&((*pnode)->left));
+        node_free(&((*pnode)->right));
         free(*pnode);
         *pnode = NULL;
     }
