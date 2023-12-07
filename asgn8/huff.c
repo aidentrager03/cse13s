@@ -128,7 +128,8 @@ int main(int argc, char *argv[]) {
             output_filename = argv[i + 1];
             i++;
         } else if (strcmp(argv[i], "-h") == 0) {
-            printf("Help message: Your help message goes here.\n");
+            printf("Usage: huff -i infile -o outfile\n       huff -v -i infile -o outfile\n       "
+                   "huff -h\n");
             return 0;
         }
     }
