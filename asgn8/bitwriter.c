@@ -12,13 +12,13 @@ struct BitWriter {
 BitWriter *bit_write_open(const char *filename) {
     BitWriter *bw = (BitWriter *) malloc(sizeof(BitWriter));
     if (bw == NULL) {
-        return NULL; // Memory allocation failure
+        return NULL;
     }
 
     FILE *f = fopen(filename, "wb");
     if (f == NULL) {
         free(bw);
-        return NULL; // File opening failure
+        return NULL;
     }
 
     bw->underlying_stream = f;

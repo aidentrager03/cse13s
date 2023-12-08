@@ -133,7 +133,6 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    // Check if required options are provided
     if (input_filename == NULL || output_filename == NULL) {
         fprintf(stderr, "Error: Input and output filenames are required.\n");
         return 1;
@@ -158,14 +157,12 @@ int main(int argc, char *argv[]) {
     Code code_table[256];
     fill_code_table(code_table, code_tree, 0, 0);
 
-    // Rewind the input file
     input_file = fopen(input_filename, "rb");
     if (input_file == NULL) {
         perror("Error rewinding input file");
         return 1;
     }
 
-    // Open output file
     BitWriter *output_buffer = bit_write_open(output_filename);
     if (output_buffer == NULL) {
         perror("Error opening output file");
@@ -173,14 +170,10 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    // Compress the file
     huff_compress_file(output_buffer, input_file, filesize, num_leaves, code_tree, code_table);
-
-    // Close files and free resources
     fclose(input_file);
     bit_write_close(&output_buffer);
 
-    // Free the tree
     node_free(&code_tree);
 
     return 0;

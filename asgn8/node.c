@@ -6,13 +6,13 @@
 Node *node_create(uint8_t symbol, uint32_t weight) {
     Node *new_node = (Node *) malloc(sizeof(Node));
     if (new_node == NULL) {
-        return NULL; // Memory allocation error
+        return NULL;
     }
 
     new_node->symbol = symbol;
     new_node->weight = weight;
-    new_node->code = 0; // Initialize code to 0
-    new_node->code_length = 0; // Initialize code_length to 0
+    new_node->code = 0;
+    new_node->code_length = 0;
     new_node->left = NULL;
     new_node->right = NULL;
 

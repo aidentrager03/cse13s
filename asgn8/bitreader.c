@@ -12,13 +12,13 @@ struct BitReader {
 BitReader *bit_read_open(const char *filename) {
     BitReader *bit_reader = (BitReader *) malloc(sizeof(BitReader));
     if (bit_reader == NULL) {
-        return NULL; // Memory allocation error
+        return NULL;
     }
 
     FILE *file = fopen(filename, "rb");
     if (file == NULL) {
         free(bit_reader);
-        return NULL; // File opening error
+        return NULL;
     }
 
     bit_reader->underlying_stream = file;

@@ -17,7 +17,7 @@ struct PriorityQueue {
 PriorityQueue *pq_create(void) {
     PriorityQueue *new_queue = (PriorityQueue *) malloc(sizeof(PriorityQueue));
     if (new_queue == NULL) {
-        return NULL; // Memory allocation error
+        return NULL;
     }
 
     new_queue->list = NULL;
